@@ -17,14 +17,19 @@ namespace ImportTool
             while (updating)
             {
                 // update window
-                ic.Update();
-                logTxtBox.AppendText(ic.getAndDumpLog());
-                progressLable1.Text = (ic.getCopyCounter()).ToString();
+                // ic.Update();
+                string temp = ":" + (ImporterCopy.getGlobalGLog());
+                logTxtBox.Text += temp;
+                //logTxtBox.u
+                logTxtBox.Update();
+                logTxtBox.Refresh();
+                progressLable1.Text = (ImporterCopy.getGlobalCopyCounter()).ToString();
                 progressLable1.Refresh();
             }
         }
         private void importPathButton(object sender, EventArgs e)
         {
+            Console.WriteLine("XXX");
             FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select folder to import"};
             if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
@@ -66,13 +71,15 @@ namespace ImportTool
                 else config.setRenamePrefix("");
             }
 
-           
             //Thread mainUpdate = new Thread(new ThreadStart(Update));
-            //Thread copythread = new Thread(new ThreadStart(threadCopy));
-            //copythread.Start();
+            Thread copythread = new Thread(new ThreadStart(threadCopy));
+            copythread.Start();
             //mainUpdate.Start();
             // Start import
-
+            updating = true;
+            Update();
+            copythread.Join();
+            updating = false;
         }
         private void threadCopy()
         {

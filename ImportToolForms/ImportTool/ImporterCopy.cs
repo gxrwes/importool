@@ -14,7 +14,7 @@ namespace ImportTool
         //private ConfigHolderSingelton _config = new ConfigHolderSingelton();
         protected static int g_fileIndexCounter = 0;
         protected int _fileCopyIndexCounter;
-
+        protected static ArrayList g_Log = new ArrayList();
         ArrayList logArray = new ArrayList();
         protected static string logInitialized = "----------\n";
         string jobname;
@@ -40,8 +40,18 @@ namespace ImportTool
         }
 
         public int getCopyCounter() { return _fileCopyIndexCounter; }  
-        public int getGlobalCopyCounter() { return g_fileIndexCounter; }    
+        public static int getGlobalCopyCounter() { return g_fileIndexCounter; }    
+        public static string getGlobalGLog() 
+        {
+            string temp = "";
+            foreach (var log in g_Log)
+            {
+                temp += log.ToString();
+            }
+            return temp;
+        }
         public ArrayList getLogArray() { return logArray; } 
+        
         public void Update()
         {
 
@@ -87,7 +97,11 @@ namespace ImportTool
         }
         private void _ImportDirectory(DirectoryInfo source, DirectoryInfo target)
         {
+            //sync counter
             _fileCopyIndexCounter++;
+            g_Log = logArray;
+
+
             String timeStamp = Program.GetTimestamp(DateTime.Now);
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
 
