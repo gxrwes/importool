@@ -18,13 +18,14 @@ namespace ImportTool
             {
                 // update window
                 // ic.Update();
-                string temp = ":" + (ImporterCopy.getGlobalGLog());
+                string temp = "" + (ImporterCopy.getGlobalGLog());
                 logTxtBox.Text += temp;
                 //logTxtBox.u
                 logTxtBox.Update();
                 logTxtBox.Refresh();
                 progressLable1.Text = (ImporterCopy.getGlobalCopyCounter()).ToString();
                 progressLable1.Refresh();
+                Thread.Sleep(100);  
             }
         }
         private void importPathButton(object sender, EventArgs e)
@@ -35,6 +36,7 @@ namespace ImportTool
             {
                 config.setImportPath(importPathDialog.SelectedPath);
                 importpathtxtbox.Text = config.getImportPath();
+                
             }
 
         }
@@ -44,7 +46,7 @@ namespace ImportTool
             FolderBrowserDialog destPathDialog = new FolderBrowserDialog() { Description = "Select folder to import" };
             if (destPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                config.setImportPath(destPathDialog.SelectedPath);
+                config.setDestPath(destPathDialog.SelectedPath);
                 destpathtxtbox.Text = config.getImportPath();  
             }
         }
@@ -72,7 +74,9 @@ namespace ImportTool
             }
 
             //Thread mainUpdate = new Thread(new ThreadStart(Update));
-            Thread copythread = new Thread(new ThreadStart(threadCopy));
+
+
+            Thread copythread = new Thread(new ThreadStart( threadCopy ));
             copythread.Start();
             //mainUpdate.Start();
             // Start import
@@ -83,8 +87,8 @@ namespace ImportTool
         }
         private void threadCopy()
         {
-            ic.StartCopy();
-            updating = false;
+            bool x = ic.StartCopy(config.getImportPath(),config.getDestinationPath());
+            
         }
         private void _t_update()
         {

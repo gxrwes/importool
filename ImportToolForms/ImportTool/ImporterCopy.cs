@@ -46,8 +46,9 @@ namespace ImportTool
             string temp = "";
             foreach (var log in g_Log)
             {
-                temp += log.ToString();
+                temp += "\n" + log.ToString();
             }
+            g_Log.Clear();
             return temp;
         }
         public ArrayList getLogArray() { return logArray; } 
@@ -74,15 +75,18 @@ namespace ImportTool
             logArray = new ArrayList();
             return temp;
         }
-        public bool StartCopy()
+        public bool StartCopy(string tempimportpath, string tempdestpath)
         {
             try {
-                ImportDirectory(ConfigHolderSingelton.Instance.getImportPath(), ConfigHolderSingelton.Instance.getDestinationPath());
+                //string tempimportpath = ConfigHolderSingelton.Instance.getImportPath();
+                //string tempdestpath = ConfigHolderSingelton.Instance.getDestinationPath();
+                ImportDirectory(tempimportpath, tempdestpath);
                 return true;
             }
             catch ( Exception e)
             {
                 logArray.Add("Process Failed");
+                ImportToolWindow.updating = false;
             }
 
             return false; 
@@ -122,7 +126,7 @@ namespace ImportTool
                 Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
                 logArray.Add("Original copy Name " +target.FullName+"\\" + fi.Name + " ");
                 string name = prefixBuilder() + "" + fi.Name;
-                fi.CopyTo(Path.Combine(target.ToString(), name), true);
+                fi.CopyTo(Path.Combine(target.ToString(),name), true);
                 logArray.Add("Copied And Renamed to " + name);
             }
 
