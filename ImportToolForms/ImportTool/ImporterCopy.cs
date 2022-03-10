@@ -81,6 +81,7 @@ namespace ImportTool
                 //string tempimportpath = ConfigHolderSingelton.Instance.getImportPath();
                 //string tempdestpath = ConfigHolderSingelton.Instance.getDestinationPath();
                 ImportDirectory(tempimportpath, tempdestpath);
+                ImportToolWindow.updating = false;
                 return true;
             }
             catch ( Exception e)

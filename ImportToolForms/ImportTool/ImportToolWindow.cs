@@ -83,7 +83,7 @@ namespace ImportTool
             updating = true;
             Update();
             copythread.Join();
-            updating = false;
+            
         }
         private void threadCopy()
         {
