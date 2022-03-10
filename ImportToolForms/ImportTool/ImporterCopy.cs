@@ -4,26 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections;
 
 namespace ImportTool
 {
     internal class ImporterCopy
     {
         //private ConfigHolderSingelton _config = new ConfigHolderSingelton();
-        protected static int _touchCounter = 0;
-        private Form _form = null;
-        public ImporterCopy(Form form)
+        protected static int g_fileIndexCounter = 0;
+        protected int _fileCopyIndexCounter;
+        ArrayList logArray = new ArrayList();
+        protected static string logInitialized = "----------\n";
+        string jobname;
+        public ImporterCopy()
         {
-            this._form = form;
+            // set this instances filecount
+            jobname = "UNDEFINED";
+            _fileCopyIndexCounter = 0;
+            logArray = new ArrayList();
+            logArray.Add(logInitialized);
+            logArray.Add("Jobname|" + jobname);
+
         }
-        
-        public int getCopyCounter() { return _touchCounter; }   
-        public Form getForm() { return _form; }
-        public void setForm(Form form) { _form = form; }
-        public static bool Update()
-        { 
-            //this._form.Update();
-            return true;
+        public ImporterCopy(string jobname)
+        {
+            // set this instances filecount
+            this.jobname = jobname; 
+            _fileCopyIndexCounter = 0;
+            logArray = new ArrayList();
+            logArray.Add(logInitialized);
+            logArray.Add("Jobname|" + jobname);
+
+        }
+
+        public int getCopyCounter() { return _fileCopyIndexCounter; }   
+        public static void Update()
+        {
+            g_fileIndexCounter ++;
+            logArray.Add("["+g_fileIndexCounter+"] ");
         }
         public bool StartCopy()
         {
@@ -58,9 +76,6 @@ namespace ImportTool
             // Get the files in the source directory and copy to the destination directory
             foreach (FileInfo file in dir_src.GetFiles())
             {
-                bool b = Update();
-
-                _touchCounter++;
                 string targetFilePath = Path.Combine(targetPath, file.Name);
                 file.CopyTo(targetFilePath);
             }
