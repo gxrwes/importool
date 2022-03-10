@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections;
 
+
 namespace ImportTool
 {
     internal class ImporterCopy
@@ -13,6 +14,7 @@ namespace ImportTool
         //private ConfigHolderSingelton _config = new ConfigHolderSingelton();
         protected static int g_fileIndexCounter = 0;
         protected int _fileCopyIndexCounter;
+
         ArrayList logArray = new ArrayList();
         protected static string logInitialized = "----------\n";
         string jobname;
@@ -37,59 +39,93 @@ namespace ImportTool
 
         }
 
-        public int getCopyCounter() { return _fileCopyIndexCounter; }   
-        public static void Update()
+        public int getCopyCounter() { return _fileCopyIndexCounter; }  
+        public int getGlobalCopyCounter() { return g_fileIndexCounter; }    
+        public ArrayList getLogArray() { return logArray; } 
+        public void Update()
         {
-            g_fileIndexCounter ++;
-            logArray.Add("["+g_fileIndexCounter+"] ");
+
+            //g_fileIndexCounter++;
+            //logArray.Add("[ "+g_fileIndexCounter+" | " + _fileCopyIndexCounter+" ] ");
+        }
+
+        public string getLog() 
+        {
+            string temp = "";
+            foreach(var log in logArray)
+            {
+                temp += log.ToString();
+            } 
+            return temp;
+        }
+        public string getAndDumpLog() 
+        {
+            string temp = getLog();
+            logArray = new ArrayList();
+            return temp;
         }
         public bool StartCopy()
         {
             try {
-                CopyDirectory(ConfigHolderSingelton.Instance.getImportPath(), ConfigHolderSingelton.Instance.getDestinationPath());
+                ImportDirectory(ConfigHolderSingelton.Instance.getImportPath(), ConfigHolderSingelton.Instance.getDestinationPath());
                 return true;
             }
             catch ( Exception e)
             {
-                Console.WriteLine(" copy failed");
+                logArray.Add("Process Failed");
             }
 
             return false; 
         }
-        private static void CopyDirectory(string sourcePath, string targetPath)
+        private void ImportDirectory(string sourcePath, string targetPath)
         {
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
-            // Get information about the source directory
-            var dir_src = new DirectoryInfo(sourcePath);
-            var dir_dst = new DirectoryInfo(targetPath);
-            // Check if the source directory exists
-            if (!dir_src.Exists)
-                throw new DirectoryNotFoundException($"Source directory not found: {dir_src.FullName}");
+            DirectoryInfo source = new DirectoryInfo(sourcePath);
+            DirectoryInfo target = new DirectoryInfo(targetPath);
 
-            // Cache directories before we start copying
-            DirectoryInfo[] dirs = dir_src.GetDirectories();
+            _ImportDirectory(source, target);
+        }
+        private void _ImportDirectory(DirectoryInfo source, DirectoryInfo target)
+        {
+            _fileCopyIndexCounter++;
+            String timeStamp = Program.GetTimestamp(DateTime.Now);
+            string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
 
-            // Create the destination directory
-            if (!dir_dst.Exists) 
-                Directory.CreateDirectory(targetPath);
-
-            // Get the files in the source directory and copy to the destination directory
-            foreach (FileInfo file in dir_src.GetFiles())
+            if (source.FullName.ToLower() == target.FullName.ToLower())
             {
-                string targetFilePath = Path.Combine(targetPath, file.Name);
-                file.CopyTo(targetFilePath);
+                return;
             }
 
-            // If recursive and copying subdirectories, recursively call this method
-            if (ConfigHolderSingelton.Instance.searchRecursive())
+            // Check if the target directory exists, if not, create it.
+            if (Directory.Exists(target.FullName) == false)
             {
-                foreach (DirectoryInfo subDir in dirs)
-                {
-                    string newDestinationDir = Path.Combine(targetPath, subDir.Name);
-                    CopyDirectory(subDir.FullName, newDestinationDir);
-                }
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into it's new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+                logArray.Add("Original copy Name " +target.FullName+"\\" + fi.Name + " ");
+                string name = prefixBuilder() + "" + fi.Name;
+                fi.CopyTo(Path.Combine(target.ToString(), name), true);
+                logArray.Add("Copied And Renamed to " + name);
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                _ImportDirectory(diSourceSubDir, nextTargetSubDir);
             }
         }
+
+        public string prefixBuilder()
+        {
+            return "[" + _fileCopyIndexCounter + "] " + jobname + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
+        }
+       
 
     }
 }

@@ -4,17 +4,24 @@ namespace ImportTool
     {
         private ConfigHolderSingelton config = new ConfigHolderSingelton();
         private ImporterCopy ic;
+        public static bool updating = true;
         public ImportToolWindow()
         {
             InitializeComponent();
-            ic = new ImporterCopy(this);
+            ic = new ImporterCopy();
+           
         }
 
         public void Update()
         {
-            // update window
-            progressLable1.Text = (ic.getCopyCounter()).ToString();
-            progressLable1.Refresh();
+            while (updating)
+            {
+                // update window
+                ic.Update();
+                logTxtBox.AppendText(ic.getAndDumpLog());
+                progressLable1.Text = (ic.getCopyCounter()).ToString();
+                progressLable1.Refresh();
+            }
         }
         private void importPathButton(object sender, EventArgs e)
         {
@@ -59,11 +66,22 @@ namespace ImportTool
                 else config.setRenamePrefix("");
             }
 
-            ic.setForm(this);   
-            ic.StartCopy();
-            Update();
+           
+            //Thread mainUpdate = new Thread(new ThreadStart(Update));
+            //Thread copythread = new Thread(new ThreadStart(threadCopy));
+            //copythread.Start();
+            //mainUpdate.Start();
             // Start import
 
+        }
+        private void threadCopy()
+        {
+            ic.StartCopy();
+            updating = false;
+        }
+        private void _t_update()
+        {
+           
         }
     }
 }

@@ -42,6 +42,7 @@
             this.StartImport = new System.Windows.Forms.Button();
             this.progressBarCopy = new System.Windows.Forms.ProgressBar();
             this.progressLable1 = new System.Windows.Forms.Label();
+            this.logTxtBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -164,11 +165,20 @@
             this.progressLable1.TabIndex = 12;
             this.progressLable1.Text = ":";
             // 
+            // logTxtBox
+            // 
+            this.logTxtBox.Location = new System.Drawing.Point(116, 299);
+            this.logTxtBox.Name = "logTxtBox";
+            this.logTxtBox.Size = new System.Drawing.Size(626, 218);
+            this.logTxtBox.TabIndex = 13;
+            this.logTxtBox.Text = "";
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.logTxtBox);
             this.Controls.Add(this.progressLable1);
             this.Controls.Add(this.progressBarCopy);
             this.Controls.Add(this.StartImport);
@@ -205,5 +215,6 @@
         private Button StartImport;
         private ProgressBar progressBarCopy;
         private Label progressLable1;
+        private RichTextBox logTxtBox;
     }
 }
