@@ -27,6 +27,7 @@ namespace ImportTool
         // CopyJob Original File Hanlder
         private bool renameOriginalBool = false;
         private string renameOriginalCopyPrefix = "";
+        private bool renameImport = false;
 
 
         // Constructors
@@ -61,6 +62,7 @@ namespace ImportTool
         }
         public string getJobName() { return this.importJobName; }
         public string getExtensionFilter() { return this.extensionFilter; }
+        public bool getRenameOriginalBool() { return this.renameOriginalBool; }
 
 
         // Setters
@@ -90,12 +92,10 @@ namespace ImportTool
                 // throw exception at somepoint
             }
         }
-
         public void setImportPath(string path) 
         { 
             this.importPath = path; 
         }
-
         public void setDestPath(string path) 
         { 
             this.destPath = path; 
@@ -103,6 +103,16 @@ namespace ImportTool
         public void setJobName(string name)
         {
             this.importJobName = name;
+        }
+        public void setDefault() 
+        {
+            this.setDestPath(@"F:\MediaProjects\Videos\2022");
+            this.setExtenstionFilter("mp4");
+            this.setRenamePrefix("_");
+        }
+        public void setRenameImport(bool renamebool)
+        {
+            this.renameOriginalBool = renamebool;
         }
 
     }

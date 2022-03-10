@@ -29,5 +29,21 @@ namespace ImportTool
                 destpathtxtbox.Text = config.getImportPath();  
             }
         }
+
+        private void initialConfigInput1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StartImport_Click(object sender, EventArgs e)
+        {
+            if (configCheckboxDefault.Checked)
+            { 
+                config.setDefault(); 
+                configCheckboxRenameImport.Enabled = false;
+                configCheckboxRenameImport.Enabled = false;
+                configCheckboxRenameOriginal.Enabled = false;
+            }
+        }
     }
 }
