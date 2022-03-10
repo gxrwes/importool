@@ -40,6 +40,8 @@
             this.configCheckboxRenameOriginal = new System.Windows.Forms.CheckBox();
             this.configCheckboxAutoBackup = new System.Windows.Forms.CheckBox();
             this.StartImport = new System.Windows.Forms.Button();
+            this.progressBarCopy = new System.Windows.Forms.ProgressBar();
+            this.progressLable1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -108,7 +110,6 @@
             // 
             // configCheckboxRenameImport
             // 
-            this.configCheckboxRenameImport.AutoEllipsis = true;
             this.configCheckboxRenameImport.AutoSize = true;
             this.configCheckboxRenameImport.Location = new System.Drawing.Point(116, 156);
             this.configCheckboxRenameImport.Name = "configCheckboxRenameImport";
@@ -147,11 +148,29 @@
             this.StartImport.UseVisualStyleBackColor = true;
             this.StartImport.Click += new System.EventHandler(this.StartImport_Click);
             // 
+            // progressBarCopy
+            // 
+            this.progressBarCopy.Location = new System.Drawing.Point(17, 523);
+            this.progressBarCopy.Name = "progressBarCopy";
+            this.progressBarCopy.Size = new System.Drawing.Size(725, 23);
+            this.progressBarCopy.TabIndex = 11;
+            // 
+            // progressLable1
+            // 
+            this.progressLable1.AutoSize = true;
+            this.progressLable1.Location = new System.Drawing.Point(711, 505);
+            this.progressLable1.Name = "progressLable1";
+            this.progressLable1.Size = new System.Drawing.Size(10, 15);
+            this.progressLable1.TabIndex = 12;
+            this.progressLable1.Text = ":";
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.progressLable1);
+            this.Controls.Add(this.progressBarCopy);
             this.Controls.Add(this.StartImport);
             this.Controls.Add(this.configCheckboxAutoBackup);
             this.Controls.Add(this.configCheckboxRenameOriginal);
@@ -184,5 +203,7 @@
         private CheckBox configCheckboxRenameOriginal;
         private CheckBox configCheckboxAutoBackup;
         private Button StartImport;
+        private ProgressBar progressBarCopy;
+        private Label progressLable1;
     }
 }

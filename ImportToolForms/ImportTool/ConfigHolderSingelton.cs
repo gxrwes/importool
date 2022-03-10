@@ -22,11 +22,14 @@ namespace ImportTool
         private string importPath = "";
         private string destPath = "";
         private bool extensionFilterBool = false;
-        private string extensionFilter = "";
+        private string extensionFilter = "*";
+        private bool searchRecursiveB = true;
 
         // CopyJob Original File Hanlder
         private bool renameOriginalBool = false;
         private string renameOriginalCopyPrefix = "";
+
+        // Import Rename with tags
         private bool renameImport = false;
 
 
@@ -63,6 +66,7 @@ namespace ImportTool
         public string getJobName() { return this.importJobName; }
         public string getExtensionFilter() { return this.extensionFilter; }
         public bool getRenameOriginalBool() { return this.renameOriginalBool; }
+        public bool searchRecursive() { return this.searchRecursiveB; }
 
 
         // Setters
@@ -84,13 +88,13 @@ namespace ImportTool
             if (prefix.Length > 0)
             {
                 this.renameOriginalBool = true;
-                this.renameOriginalCopyPrefix = prefix;
             }
             else
             {
                 this.renameOriginalBool = false;
                 // throw exception at somepoint
             }
+            this.renameOriginalCopyPrefix = prefix;
         }
         public void setImportPath(string path) 
         { 
@@ -106,7 +110,7 @@ namespace ImportTool
         }
         public void setDefault() 
         {
-            this.setDestPath(@"F:\MediaProjects\Videos\2022");
+            this.setDestPath(this.defaultPath);
             this.setExtenstionFilter("mp4");
             this.setRenamePrefix("_");
         }
@@ -114,6 +118,7 @@ namespace ImportTool
         {
             this.renameOriginalBool = renamebool;
         }
+        public void setSearchRecursive(bool value) { this.searchRecursiveB = value; }
 
     }
 }
