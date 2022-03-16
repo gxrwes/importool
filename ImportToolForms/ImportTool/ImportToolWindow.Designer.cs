@@ -43,6 +43,7 @@
             this.progressBarCopy = new System.Windows.Forms.ProgressBar();
             this.progressLable1 = new System.Windows.Forms.Label();
             this.logTxtBox = new System.Windows.Forms.RichTextBox();
+            this.configCheckboxCreateProject = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -173,11 +174,22 @@
             this.logTxtBox.TabIndex = 13;
             this.logTxtBox.Text = "test";
             // 
+            // configCheckboxCreateProject
+            // 
+            this.configCheckboxCreateProject.AutoSize = true;
+            this.configCheckboxCreateProject.Location = new System.Drawing.Point(116, 231);
+            this.configCheckboxCreateProject.Name = "configCheckboxCreateProject";
+            this.configCheckboxCreateProject.Size = new System.Drawing.Size(98, 19);
+            this.configCheckboxCreateProject.TabIndex = 14;
+            this.configCheckboxCreateProject.Text = "create Project";
+            this.configCheckboxCreateProject.UseVisualStyleBackColor = true;
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.configCheckboxCreateProject);
             this.Controls.Add(this.logTxtBox);
             this.Controls.Add(this.progressLable1);
             this.Controls.Add(this.progressBarCopy);
@@ -216,5 +228,6 @@
         private ProgressBar progressBarCopy;
         private Label progressLable1;
         private RichTextBox logTxtBox;
+        private CheckBox configCheckboxCreateProject;
     }
 }

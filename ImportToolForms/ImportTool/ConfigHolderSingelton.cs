@@ -16,7 +16,9 @@ namespace ImportTool
         //---------------
 
         private string importJobName = "";
-        private string defaultPath = @"C:\temp";
+        private string defaultPath = @"F:\MediaProjects\Videos\";
+        private bool isDefault = false;
+        private bool createProject = true;
 
         // FILE PATHS
         private string importPath = "";
@@ -51,6 +53,7 @@ namespace ImportTool
              
 
         // Getters
+        public bool IsDefault() { return isDefault; }
         public string getImportPath()
         {
             return this.importPath;
@@ -67,6 +70,12 @@ namespace ImportTool
         public string getExtensionFilter() { return this.extensionFilter; }
         public bool getRenameOriginalBool() { return this.renameOriginalBool; }
         public bool searchRecursive() { return this.searchRecursiveB; }
+        public bool getCreateProject() { return this.createProject; }
+
+        public string getCamera()
+        {
+            return "Camera01";
+        }
 
 
         // Setters
@@ -97,7 +106,8 @@ namespace ImportTool
             this.renameOriginalCopyPrefix = prefix;
         }
         public void setImportPath(string path) 
-        { 
+        {
+            isDefault = false;
             this.importPath = path; 
         }
         public void setDestPath(string path) 
@@ -110,6 +120,7 @@ namespace ImportTool
         }
         public void setDefault() 
         {
+            isDefault=true;
             this.setDestPath(this.defaultPath);
             this.setExtenstionFilter("mp4");
             this.setRenamePrefix("_");
@@ -119,6 +130,29 @@ namespace ImportTool
             this.renameOriginalBool = renamebool;
         }
         public void setSearchRecursive(bool value) { this.searchRecursiveB = value; }
+        public void setCreateProject(bool value) 
+        { 
+            this.createProject = value;
+            if (this.createProject)
+            {
+                destPath += projectPathBuilder();
+                ImporterCopy.testOrBuildDirectory(destPath);
+            }
+        }
+
+        public string projectPathBuilder()
+        {
+            string tempPath = "";
+            DateTime dat = DateTime.Now;
+            // add directory Year to path
+            tempPath = dat.Year + "\\";
+            // add directory Jobname
+            tempPath += dat.DayOfYear+ "_" + this.getJobName() + "\\";
+            // add directory Footage
+            tempPath += "Footage\\" + this.getCamera() + "\\";
+            return tempPath;
+
+        }
 
     }
 }

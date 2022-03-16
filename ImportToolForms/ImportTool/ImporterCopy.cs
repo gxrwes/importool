@@ -97,6 +97,11 @@ namespace ImportTool
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
             DirectoryInfo source = new DirectoryInfo(sourcePath);
             DirectoryInfo target = new DirectoryInfo(targetPath);
+            if (ConfigHolderSingelton.Instance.IsDefault())
+            {
+                target = new DirectoryInfo(ConfigHolderSingelton.Instance.getDestinationPath());
+            }
+
 
             _ImportDirectory(source, target);
         }
@@ -145,6 +150,20 @@ namespace ImportTool
             return "[" + _fileCopyIndexCounter + "] " + jobname + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
         }
        
+
+        public static void testOrBuildDirectory(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Console.WriteLine("Directory Already Exists");
+                return;
+            }
+            DirectoryInfo d = Directory.CreateDirectory(path);
+            if (d.Exists)
+                Console.WriteLine("Directory Creaded Successfully");
+            else
+                Console.WriteLine("Directory coulnt be created");
+        }
 
     }
 }

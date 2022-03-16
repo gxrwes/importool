@@ -30,7 +30,6 @@ namespace ImportTool
         }
         private void importPathButton(object sender, EventArgs e)
         {
-            Console.WriteLine("XXX");
             FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select folder to import"};
             if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
@@ -60,17 +59,21 @@ namespace ImportTool
             {
                 config.setDefault();
                 config.setRenameImport(true);
+                config.setCreateProject(true);
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
                 configCheckboxAutoBackup.Enabled = false;
+                configCheckboxCreateProject.Enabled = false;
+                destpathtxtbox.Text = config.getDestinationPath();
             }
             else
             {
                 if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
                 else config.setRenameImport(false);
                 if (configCheckboxRenameOriginal.Checked) config.setRenamePrefix("_");
-                else config.setRenamePrefix("");
+                if (configCheckboxCreateProject.Checked) config.setCreateProject(true);
+                else config.setCreateProject(false);
             }
 
             //Thread mainUpdate = new Thread(new ThreadStart(Update));
