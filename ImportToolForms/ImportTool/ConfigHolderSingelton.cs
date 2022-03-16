@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace ImportTool
 {
@@ -12,6 +13,8 @@ namespace ImportTool
         //SINGELTON
         private static ConfigHolderSingelton instance = null;
         private static readonly object padlock = new object();
+
+        private static int _jobsInProgress = 0;
         // Import Configs
         //---------------
 
@@ -26,10 +29,12 @@ namespace ImportTool
         private bool extensionFilterBool = false;
         private string extensionFilter = "*";
         private bool searchRecursiveB = true;
+        private bool projAdded = false;
 
         // CopyJob Original File Hanlder
         private bool renameOriginalBool = false;
         private string renameOriginalCopyPrefix = "";
+
 
         // Import Rename with tags
         private bool renameImport = false;
@@ -75,6 +80,11 @@ namespace ImportTool
         public string getCamera()
         {
             return "Camera01";
+        }
+        public bool jobInProgress()
+        {
+            if (_jobsInProgress > 0) return true;
+            return false;
         }
 
 
@@ -133,8 +143,9 @@ namespace ImportTool
         public void setCreateProject(bool value) 
         { 
             this.createProject = value;
-            if (this.createProject)
+            if (this.createProject && !projAdded)
             {
+                projAdded = true;   
                 destPath += projectPathBuilder();
                 ImporterCopy.testOrBuildDirectory(destPath);
             }
@@ -146,13 +157,21 @@ namespace ImportTool
             DateTime dat = DateTime.Now;
             // add directory Year to path
             tempPath = dat.Year + "\\";
-            // add directory Jobname
-            tempPath += dat.DayOfYear+ "_" + this.getJobName() + "\\";
+            // add directory Jobname and number
+            string dayFormat = dat.DayOfYear.ToString();
+            if (dayFormat.Length == 2) dayFormat = "0" + dayFormat;
+            else if(dayFormat.Length == 1) dayFormat = "00" + dayFormat;
+            tempPath += "["+ dayFormat + "]_" + this.getJobName() + "\\";
             // add directory Footage
             tempPath += "Footage\\" + this.getCamera() + "\\";
             return tempPath;
 
         }
+        public void addToJobWatcher() 
+        {
+            _jobsInProgress++;
+        }
+        public void fireJob() { _jobsInProgress--; }
 
     }
 }

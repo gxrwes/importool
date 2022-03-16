@@ -18,14 +18,16 @@ namespace ImportTool
             {
                 // update window
                 // ic.Update();
-                string temp = "" + (ImporterCopy.getGlobalGLog());
+                string temp =  WLog.dumpLog();
                 logTxtBox.Text += temp;
                 //logTxtBox.u
                 logTxtBox.Update();
                 logTxtBox.Refresh();
-                progressLable1.Text = (ImporterCopy.getGlobalCopyCounter()).ToString();
+                progressLable1.Text = ConfigHolderSingelton.Instance.getJobName();
                 progressLable1.Refresh();
-                Thread.Sleep(100);  
+                Thread.Sleep(100);
+                progressBarCopy.Increment(1);
+                if(!ConfigHolderSingelton.Instance.jobInProgress()) updating = false;
             }
         }
         private void importPathButton(object sender, EventArgs e)
@@ -35,7 +37,7 @@ namespace ImportTool
             {
                 config.setImportPath(importPathDialog.SelectedPath);
                 importpathtxtbox.Text = config.getImportPath();
-                
+                WLog.record("Import Path OK");
             }
 
         }
@@ -46,7 +48,8 @@ namespace ImportTool
             if (destPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 config.setDestPath(destPathDialog.SelectedPath);
-                destpathtxtbox.Text = config.getImportPath();  
+                destpathtxtbox.Text = config.getImportPath();
+                WLog.record("SRC Path OK");
             }
         }
         private void initialConfigInput1_SelectedIndexChanged(object sender, EventArgs e)
@@ -57,6 +60,7 @@ namespace ImportTool
         {
             if (configCheckboxDefault.Checked)
             {
+                config.setJobName(jobnameLable.Text);
                 config.setDefault();
                 config.setRenameImport(true);
                 config.setCreateProject(true);
@@ -66,19 +70,24 @@ namespace ImportTool
                 configCheckboxAutoBackup.Enabled = false;
                 configCheckboxCreateProject.Enabled = false;
                 destpathtxtbox.Text = config.getDestinationPath();
+                WLog.record("DEFAULT SET");
             }
             else
             {
-                if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
+                config.setJobName(jobnameLable.Text);
+;                if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
                 else config.setRenameImport(false);
+                WLog.record("\trename import " + config.getRenameOriginalBool);
                 if (configCheckboxRenameOriginal.Checked) config.setRenamePrefix("_");
                 if (configCheckboxCreateProject.Checked) config.setCreateProject(true);
                 else config.setCreateProject(false);
+                WLog.record("\tcreate Project " + config.getCreateProject);
             }
 
             //Thread mainUpdate = new Thread(new ThreadStart(Update));
-
-
+            StartImport.Enabled = false;
+            jobnameTextbox.ReadOnly = true;
+            WLog.record("STARTING IMPORT");
             Thread copythread = new Thread(new ThreadStart( threadCopy ));
             copythread.Start();
             //mainUpdate.Start();
@@ -86,7 +95,11 @@ namespace ImportTool
             updating = true;
             Update();
             copythread.Join();
-            
+            WLog.record("IMPORT COMPLETE");
+            WLog.record("EOF");
+            logTxtBox.Refresh();
+
+
         }
         private void threadCopy()
         {

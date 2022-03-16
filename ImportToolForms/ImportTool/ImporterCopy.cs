@@ -94,6 +94,9 @@ namespace ImportTool
         }
         private void ImportDirectory(string sourcePath, string targetPath)
         {
+            // Add Job to Jobwatcher
+            ConfigHolderSingelton.Instance.addToJobWatcher();
+
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
             DirectoryInfo source = new DirectoryInfo(sourcePath);
             DirectoryInfo target = new DirectoryInfo(targetPath);
@@ -102,8 +105,10 @@ namespace ImportTool
                 target = new DirectoryInfo(ConfigHolderSingelton.Instance.getDestinationPath());
             }
 
-
             _ImportDirectory(source, target);
+            WLog.record("\tCopyJob-Complete");
+            // Job finished 
+            ConfigHolderSingelton.Instance.fireJob();
         }
         private void _ImportDirectory(DirectoryInfo source, DirectoryInfo target)
         {
@@ -129,11 +134,11 @@ namespace ImportTool
             // Copy each file into it's new directory.
             foreach (FileInfo fi in source.GetFiles())
             {
-                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+                WLog.record("Copying:"+ target.FullName+" --> " + fi.Name);
                 logArray.Add("Original copy Name " +target.FullName+"\\" + fi.Name + " ");
                 string name = prefixBuilder() + "" + fi.Name;
                 fi.CopyTo(Path.Combine(target.ToString(),name), true);
-                logArray.Add("Copied And Renamed to " + name);
+                WLog.record("Copied And Renamed to " + name);
             }
 
             // Copy each subdirectory using recursion.
@@ -155,14 +160,14 @@ namespace ImportTool
         {
             if (Directory.Exists(path))
             {
-                Console.WriteLine("Directory Already Exists");
+                WLog.record("Directory Already Exists");
                 return;
             }
             DirectoryInfo d = Directory.CreateDirectory(path);
             if (d.Exists)
-                Console.WriteLine("Directory Creaded Successfully");
+                WLog.record("Directory Creaded Successfully");
             else
-                Console.WriteLine("Directory coulnt be created");
+                WLog.record("Directory coulnt be created");
         }
 
     }

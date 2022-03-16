@@ -44,6 +44,8 @@
             this.progressLable1 = new System.Windows.Forms.Label();
             this.logTxtBox = new System.Windows.Forms.RichTextBox();
             this.configCheckboxCreateProject = new System.Windows.Forms.CheckBox();
+            this.jobnameTextbox = new System.Windows.Forms.TextBox();
+            this.jobnameLable = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -67,7 +69,7 @@
             // ImportPathLable
             // 
             this.ImportPathLable.AutoSize = true;
-            this.ImportPathLable.Location = new System.Drawing.Point(12, 75);
+            this.ImportPathLable.Location = new System.Drawing.Point(36, 75);
             this.ImportPathLable.Name = "ImportPathLable";
             this.ImportPathLable.Size = new System.Drawing.Size(76, 15);
             this.ImportPathLable.TabIndex = 2;
@@ -184,11 +186,29 @@
             this.configCheckboxCreateProject.Text = "create Project";
             this.configCheckboxCreateProject.UseVisualStyleBackColor = true;
             // 
+            // jobnameTextbox
+            // 
+            this.jobnameTextbox.Location = new System.Drawing.Point(118, 38);
+            this.jobnameTextbox.Name = "jobnameTextbox";
+            this.jobnameTextbox.Size = new System.Drawing.Size(100, 23);
+            this.jobnameTextbox.TabIndex = 15;
+            // 
+            // jobnameLable
+            // 
+            this.jobnameLable.AutoSize = true;
+            this.jobnameLable.Location = new System.Drawing.Point(51, 46);
+            this.jobnameLable.Name = "jobnameLable";
+            this.jobnameLable.Size = new System.Drawing.Size(61, 15);
+            this.jobnameLable.TabIndex = 16;
+            this.jobnameLable.Text = "Jobname :";
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.jobnameLable);
+            this.Controls.Add(this.jobnameTextbox);
             this.Controls.Add(this.configCheckboxCreateProject);
             this.Controls.Add(this.logTxtBox);
             this.Controls.Add(this.progressLable1);
@@ -229,5 +249,7 @@
         private Label progressLable1;
         private RichTextBox logTxtBox;
         private CheckBox configCheckboxCreateProject;
+        private TextBox jobnameTextbox;
+        private Label jobnameLable;
     }
 }
