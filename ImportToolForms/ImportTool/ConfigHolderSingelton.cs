@@ -161,7 +161,8 @@ namespace ImportTool
             string dayFormat = dat.DayOfYear.ToString();
             if (dayFormat.Length == 2) dayFormat = "0" + dayFormat;
             else if(dayFormat.Length == 1) dayFormat = "00" + dayFormat;
-            tempPath += "["+ dayFormat + "]_" + this.getJobName() + "\\";
+            //tempPath += "["+ dayFormat + "]_" + this.getJobName() + "\\";
+            tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
             tempPath += "Footage\\" + this.getCamera() + "\\";
             return tempPath;
