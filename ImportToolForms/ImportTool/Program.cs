@@ -12,6 +12,7 @@ namespace ImportTool
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
+            // create config
             ConfigHolderSingelton config = new ConfigHolderSingelton();
 
             ApplicationConfiguration.Initialize();

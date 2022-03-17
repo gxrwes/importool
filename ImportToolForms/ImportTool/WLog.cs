@@ -47,11 +47,13 @@ namespace ImportTool
         public string value;
         public int id;
         private DateTime cDate;
+        public string type = "";
         public WLogOBJ(int id, string value)
         {
             cDate = DateTime.Now;
             this.id = id;
-            this.value = value; 
+            this.value = value;
+            type = "default";
         }
         public DateTime getRecordDate() { return cDate; }
         public string getRecordDateAsString()

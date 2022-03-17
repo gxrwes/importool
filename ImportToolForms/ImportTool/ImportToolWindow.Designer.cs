@@ -154,7 +154,7 @@
             // 
             // progressBarCopy
             // 
-            this.progressBarCopy.Location = new System.Drawing.Point(17, 523);
+            this.progressBarCopy.Location = new System.Drawing.Point(17, 275);
             this.progressBarCopy.Name = "progressBarCopy";
             this.progressBarCopy.Size = new System.Drawing.Size(725, 23);
             this.progressBarCopy.TabIndex = 11;
@@ -162,7 +162,7 @@
             // progressLable1
             // 
             this.progressLable1.AutoSize = true;
-            this.progressLable1.Location = new System.Drawing.Point(711, 505);
+            this.progressLable1.Location = new System.Drawing.Point(17, 301);
             this.progressLable1.Name = "progressLable1";
             this.progressLable1.Size = new System.Drawing.Size(10, 15);
             this.progressLable1.TabIndex = 12;
@@ -170,11 +170,12 @@
             // 
             // logTxtBox
             // 
-            this.logTxtBox.Location = new System.Drawing.Point(116, 299);
+            this.logTxtBox.Location = new System.Drawing.Point(116, 302);
             this.logTxtBox.Name = "logTxtBox";
             this.logTxtBox.Size = new System.Drawing.Size(626, 218);
             this.logTxtBox.TabIndex = 13;
             this.logTxtBox.Text = "test";
+            this.logTxtBox.TextChanged += new System.EventHandler(this.logTxtBox_TextChanged);
             // 
             // configCheckboxCreateProject
             // 

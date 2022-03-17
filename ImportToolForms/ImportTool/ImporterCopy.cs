@@ -52,14 +52,12 @@ namespace ImportTool
             return temp;
         }
         public ArrayList getLogArray() { return logArray; } 
-        
         public void Update()
         {
 
             //g_fileIndexCounter++;
             //logArray.Add("[ "+g_fileIndexCounter+" | " + _fileCopyIndexCounter+" ] ");
         }
-
         public string getLog() 
         {
             string temp = "";
@@ -116,7 +114,6 @@ namespace ImportTool
             _fileCopyIndexCounter++;
             g_Log = logArray;
 
-
             String timeStamp = Program.GetTimestamp(DateTime.Now);
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
 
@@ -151,7 +148,7 @@ namespace ImportTool
         }
         public string prefixBuilder()
         {
-            return "[" + _fileCopyIndexCounter + "] " + jobname + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
+            return "[" + _fileCopyIndexCounter + "] " + ConfigHolderSingelton.Instance.getJobName() + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
         }
         public static void testOrBuildDirectory(string path)
         {

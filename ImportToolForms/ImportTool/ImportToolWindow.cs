@@ -5,6 +5,8 @@ namespace ImportTool
         private ConfigHolderSingelton config = new ConfigHolderSingelton();
         private ImporterCopy ic;
         public static bool updating = true;
+        private int originalCoutn = 0;
+        
         public ImportToolWindow()
         {
             InitializeComponent();
@@ -14,17 +16,26 @@ namespace ImportTool
 
         public void Update()
         {
+            float progress = 0;
+            float step = config.getOnePercent();
             while (updating)
             {
                 string temp =  WLog.dumpLog();
                 logTxtBox.Text += temp;
                 logTxtBox.Update();
                 logTxtBox.Refresh();
-
-                progressLable1.Text = ConfigHolderSingelton.Instance.getJobName();
+                WLog.record("Progress: "+ config.getProgressPercent());
+                if (progress < config.getProgressPercent())
+                {
+                    progress = config.getProgressPercent();
+                    int i_t = (int)progress;
+                    progressBarCopy.Value = i_t;
+                }
+                progressBarCopy.Refresh();
+                progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
                 Thread.Sleep(100);
-                progressBarCopy.Increment(1);
+                
                 if(!ConfigHolderSingelton.Instance.jobInProgress()) updating = false;
             }
         }
@@ -70,7 +81,7 @@ namespace ImportTool
             }
             if (configCheckboxDefault.Checked)
             {
-                config.setJobName(jobnameLable.Text);
+                ConfigHolderSingelton.Instance.setJobName(jobnameLable.Text);
                 config.setDefault();
                 config.setRenameImport(true);
                 config.setCreateProject(true);
@@ -84,7 +95,7 @@ namespace ImportTool
             }
             else
             {
-                config.setJobName(jobnameLable.Text);
+                ConfigHolderSingelton.Instance.setJobName(jobnameLable.Text);
                 if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
                 else config.setRenameImport(false);
                 WLog.record("\trename import " + config.getRenameOriginalBool);
@@ -97,14 +108,17 @@ namespace ImportTool
             //Thread mainUpdate = new Thread(new ThreadStart(Update));
             StartImport.Enabled = false;
             jobnameTextbox.ReadOnly = true;
+            // count target
+           
+            // Start Import
             WLog.record("STARTING IMPORT");
             Thread copythread = new Thread(new ThreadStart( threadCopy ));
             copythread.Start();
-            //mainUpdate.Start();
-            // Start import
             updating = true;
             Update();
             copythread.Join();
+
+            // End messages
             WLog.record("IMPORT COMPLETE");
             WLog.record("EOF");
             logTxtBox.Refresh();
@@ -123,6 +137,11 @@ namespace ImportTool
         private void _t_update()
         {
            
+        }
+
+        private void logTxtBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

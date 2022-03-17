@@ -14,7 +14,10 @@ namespace ImportTool
         private static ConfigHolderSingelton instance = null;
         private static readonly object padlock = new object();
 
+        // progess holders
         private static int _jobsInProgress = 0;
+        private static int _originalTargetCount;
+        private static int _progrssCount;
         // Import Configs
         //---------------
 
@@ -119,6 +122,7 @@ namespace ImportTool
         {
             isDefault = false;
             this.importPath = path; 
+            _originalTargetCount = ImporterCopy.countFiles(path);
         }
         public void setDestPath(string path) 
         { 
@@ -161,8 +165,8 @@ namespace ImportTool
             string dayFormat = dat.DayOfYear.ToString();
             if (dayFormat.Length == 2) dayFormat = "0" + dayFormat;
             else if(dayFormat.Length == 1) dayFormat = "00" + dayFormat;
-            //tempPath += "["+ dayFormat + "]_" + this.getJobName() + "\\";
-            tempPath += "[" + dayFormat + "]_" +  "\\";
+            tempPath += "["+ dayFormat + "]_" +ConfigHolderSingelton.Instance.getJobName+ "\\";
+            //tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
             tempPath += "Footage\\" + this.getCamera() + "\\";
             return tempPath;
@@ -173,6 +177,18 @@ namespace ImportTool
             _jobsInProgress++;
         }
         public void fireJob() { _jobsInProgress--; }
-
+        public void addFileProgress(int value)
+        {
+            _progrssCount++;
+        }
+        public float getProgressPercent()
+        {
+            float temp = (_originalTargetCount / 100) * _progrssCount;
+            return temp;
+        }
+        public float getOnePercent()
+        {
+            return (_originalTargetCount / 100);
+        }
     }
 }
