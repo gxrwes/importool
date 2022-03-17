@@ -16,13 +16,11 @@ namespace ImportTool
         {
             while (updating)
             {
-                // update window
-                // ic.Update();
                 string temp =  WLog.dumpLog();
                 logTxtBox.Text += temp;
-                //logTxtBox.u
                 logTxtBox.Update();
                 logTxtBox.Refresh();
+
                 progressLable1.Text = ConfigHolderSingelton.Instance.getJobName();
                 progressLable1.Refresh();
                 Thread.Sleep(100);
@@ -58,6 +56,18 @@ namespace ImportTool
         }
         private void StartImport_Click(object sender, EventArgs e)
         {
+            if(config.getImportPath() == "")
+            {
+                string title = "Alert!";
+                string message = "Import Path cannot be empty";
+                WLog.record(title + message);
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                DialogResult result = MessageBox.Show(message, title, buttons);
+                if (result == DialogResult.OK)
+                {
+                    this.Close();
+                }
+            }
             if (configCheckboxDefault.Checked)
             {
                 config.setJobName(jobnameLable.Text);
@@ -75,7 +85,7 @@ namespace ImportTool
             else
             {
                 config.setJobName(jobnameLable.Text);
-;                if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
+                if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
                 else config.setRenameImport(false);
                 WLog.record("\trename import " + config.getRenameOriginalBool);
                 if (configCheckboxRenameOriginal.Checked) config.setRenamePrefix("_");
@@ -98,13 +108,17 @@ namespace ImportTool
             WLog.record("IMPORT COMPLETE");
             WLog.record("EOF");
             logTxtBox.Refresh();
+            DialogResult result2 = MessageBox.Show("Import Done, Click OK to close programm", "Alert!", MessageBoxButtons.OK);
+            if (result2 == DialogResult.OK)
+            {
+                this.Close();
+            }
 
 
         }
         private void threadCopy()
         {
             bool x = ic.StartCopy(config.getImportPath(),config.getDestinationPath());
-            
         }
         private void _t_update()
         {

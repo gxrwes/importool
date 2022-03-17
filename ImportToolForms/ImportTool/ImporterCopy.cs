@@ -149,13 +149,10 @@ namespace ImportTool
                 _ImportDirectory(diSourceSubDir, nextTargetSubDir);
             }
         }
-
         public string prefixBuilder()
         {
             return "[" + _fileCopyIndexCounter + "] " + jobname + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
         }
-       
-
         public static void testOrBuildDirectory(string path)
         {
             if (Directory.Exists(path))
@@ -168,6 +165,12 @@ namespace ImportTool
                 WLog.record("Directory Creaded Successfully");
             else
                 WLog.record("Directory coulnt be created");
+        }
+        public static int countFiles(string path)
+        {
+            FileInfo[] files = new DirectoryInfo(path).GetFiles("*", SearchOption.AllDirectories);
+            WLog.record("Found " + files.Length.ToString() + " Files");
+            return files.Length;
         }
 
     }
