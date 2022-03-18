@@ -132,10 +132,11 @@ namespace ImportTool
             foreach (FileInfo fi in source.GetFiles())
             {
                 WLog.record("Copying:"+ target.FullName+" --> " + fi.Name);
-                logArray.Add("Original copy Name " +target.FullName+"\\" + fi.Name + " ");
                 string name = prefixBuilder() + "" + fi.Name;
                 fi.CopyTo(Path.Combine(target.ToString(),name), true);
                 WLog.record("Copied And Renamed to " + name);
+
+                ConfigHolderSingelton.Instance.addFileProgress(1);
             }
 
             // Copy each subdirectory using recursion.

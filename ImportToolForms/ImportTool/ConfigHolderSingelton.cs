@@ -21,14 +21,14 @@ namespace ImportTool
         // Import Configs
         //---------------
 
-        private string importJobName = "";
+        private static string importJobName = "";
         private string defaultPath = @"F:\MediaProjects\Videos\";
         private bool isDefault = false;
         private bool createProject = true;
 
         // FILE PATHS
-        private string importPath = "";
-        private string destPath = "";
+        private static string importPath = "";
+        private static string destPath = "";
         private bool extensionFilterBool = false;
         private string extensionFilter = "*";
         private bool searchRecursiveB = true;
@@ -64,17 +64,17 @@ namespace ImportTool
         public bool IsDefault() { return isDefault; }
         public string getImportPath()
         {
-            return this.importPath;
+            return importPath;
         }
         public string getDestinationPath()
         {
-            return this.destPath;
+            return destPath;
         }
         public string getRenamePrefix()
         {
             return this.renameOriginalCopyPrefix;
         }
-        public string getJobName() { return this.importJobName; }
+        public string getJobName() { return importJobName; }
         public string getExtensionFilter() { return this.extensionFilter; }
         public bool getRenameOriginalBool() { return this.renameOriginalBool; }
         public bool searchRecursive() { return this.searchRecursiveB; }
@@ -121,16 +121,16 @@ namespace ImportTool
         public void setImportPath(string path) 
         {
             isDefault = false;
-            this.importPath = path; 
+            importPath = path; 
             _originalTargetCount = ImporterCopy.countFiles(path);
         }
         public void setDestPath(string path) 
         { 
-            this.destPath = path; 
+            destPath = path; 
         }
         public void setJobName(string name)
         {
-            this.importJobName = name;
+            importJobName = name;
         }
         public void setDefault() 
         {
@@ -165,7 +165,7 @@ namespace ImportTool
             string dayFormat = dat.DayOfYear.ToString();
             if (dayFormat.Length == 2) dayFormat = "0" + dayFormat;
             else if(dayFormat.Length == 1) dayFormat = "00" + dayFormat;
-            tempPath += "["+ dayFormat + "]_" +ConfigHolderSingelton.Instance.getJobName+ "\\";
+            tempPath += "["+ dayFormat + "]_" + getJobName() + "\\";
             //tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
             tempPath += "Footage\\" + this.getCamera() + "\\";
@@ -183,12 +183,12 @@ namespace ImportTool
         }
         public float getProgressPercent()
         {
-            float temp = (_originalTargetCount / 100) * _progrssCount;
+            float temp = ( ((float)_originalTargetCount / 100) * _progrssCount ) * 100;
             return temp;
         }
         public float getOnePercent()
         {
-            return (_originalTargetCount / 100);
+            return ((float)_originalTargetCount / 100);
         }
     }
 }

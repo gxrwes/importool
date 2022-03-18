@@ -41,6 +41,18 @@ namespace ImportTool
             }
             return temp;
         }
+        public static void saveLog(string path)
+        {
+            string[] temp = new string[_logArray.Count];
+            int i = 0;
+            foreach(WLogOBJ obj in _logArray)
+            {
+                temp[i] = obj.writeObject();
+                i++;
+            }
+            path += "IL_" + Program.GetTimestamp(DateTime.Now) + ".log";
+            File.WriteAllLines(path,temp);  
+        }
     }
     internal class WLogOBJ
     {
@@ -60,5 +72,11 @@ namespace ImportTool
         {
             return cDate.ToString();
         }
+
+        public string writeObject()
+        {
+            return "["+id+"]"+cDate.ToString()+" - "+value + "\tType: "+type;
+        }
+        
     }
 }

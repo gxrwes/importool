@@ -17,20 +17,16 @@ namespace ImportTool
         public void Update()
         {
             float progress = 0;
-            float step = config.getOnePercent();
+            float step = ConfigHolderSingelton.Instance.getOnePercent();
             while (updating)
             {
                 string temp =  WLog.dumpLog();
-                logTxtBox.Text += temp;
+                logTxtBox.AppendText( temp ) ;
                 logTxtBox.Update();
-                logTxtBox.Refresh();
-                WLog.record("Progress: "+ config.getProgressPercent());
-                if (progress < config.getProgressPercent())
-                {
-                    progress = config.getProgressPercent();
-                    int i_t = (int)progress;
-                    progressBarCopy.Value = i_t;
-                }
+                //logTxtBox.Refresh();
+               
+                if(ConfigHolderSingelton.Instance.getProgressPercent() < progressBarCopy.Maximum)
+                    progressBarCopy.Value =(int) ConfigHolderSingelton.Instance.getProgressPercent();
                 progressBarCopy.Refresh();
                 progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
@@ -38,6 +34,9 @@ namespace ImportTool
                 
                 if(!ConfigHolderSingelton.Instance.jobInProgress()) updating = false;
             }
+            WLog.record("Closing Update");
+            progressBarCopy.Value = progressBarCopy.Maximum;
+            progressBarCopy.Refresh();
         }
         private void importPathButton(object sender, EventArgs e)
         {
@@ -67,6 +66,9 @@ namespace ImportTool
         }
         private void StartImport_Click(object sender, EventArgs e)
         {
+            ConfigHolderSingelton.Instance.setJobName(jobnameTextbox.Text.ToString());
+
+            if (config.getJobName().Length < 1) WLog.record("No Jobname Selected");
             if(config.getImportPath() == "")
             {
                 string title = "Alert!";
@@ -81,7 +83,6 @@ namespace ImportTool
             }
             if (configCheckboxDefault.Checked)
             {
-                ConfigHolderSingelton.Instance.setJobName(jobnameLable.Text);
                 config.setDefault();
                 config.setRenameImport(true);
                 config.setCreateProject(true);
@@ -95,7 +96,6 @@ namespace ImportTool
             }
             else
             {
-                ConfigHolderSingelton.Instance.setJobName(jobnameLable.Text);
                 if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
                 else config.setRenameImport(false);
                 WLog.record("\trename import " + config.getRenameOriginalBool);
@@ -105,7 +105,7 @@ namespace ImportTool
                 WLog.record("\tcreate Project " + config.getCreateProject);
             }
 
-            //Thread mainUpdate = new Thread(new ThreadStart(Update));
+            // Thread mainUpdate = new Thread(new ThreadStart(Update));
             StartImport.Enabled = false;
             jobnameTextbox.ReadOnly = true;
             // count target
@@ -121,14 +121,16 @@ namespace ImportTool
             // End messages
             WLog.record("IMPORT COMPLETE");
             WLog.record("EOF");
-            logTxtBox.Refresh();
+            logTxtBox.Refresh(); 
+            WLog.saveLog(ConfigHolderSingelton.Instance.getDestinationPath());
             DialogResult result2 = MessageBox.Show("Import Done, Click OK to close programm", "Alert!", MessageBoxButtons.OK);
             if (result2 == DialogResult.OK)
             {
-                this.Close();
+                //this.Close();
             }
 
 
+           
         }
         private void threadCopy()
         {
