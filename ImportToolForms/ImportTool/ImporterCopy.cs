@@ -102,11 +102,16 @@ namespace ImportTool
             {
                 target = new DirectoryInfo(ConfigHolderSingelton.Instance.getDestinationPath());
             }
-
-            _ImportDirectory(source, target);
+            Thread divCopyThread = new Thread(new ThreadStart( () => _ImportDirectory(source, target) ));
+            divCopyThread.Start();
+            // _ImportDirectory(source, target);
             WLog.record("\tCopyJob-Complete");
             // Job finished 
             ConfigHolderSingelton.Instance.fireJob();
+        }
+        private void __ThreadImportDirectory()
+        {
+
         }
         private void _ImportDirectory(DirectoryInfo source, DirectoryInfo target)
         {
