@@ -86,6 +86,7 @@ namespace ImportTool
         }
         public bool jobInProgress()
         {
+            WLog.record(": Jobs in progress : " + _jobsInProgress); 
             if (_jobsInProgress > 0) return true;
             return false;
         }
@@ -157,6 +158,7 @@ namespace ImportTool
 
         public string projectPathBuilder()
         {
+
             string tempPath = "";
             DateTime dat = DateTime.Now;
             // add directory Year to path
@@ -169,16 +171,23 @@ namespace ImportTool
             //tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
             tempPath += "Footage\\" + this.getCamera() + "\\";
+            WLog.record("Building Path : " + tempPath);
             return tempPath;
 
         }
         public void addToJobWatcher() 
         {
+            WLog.record("Adding Job");
             _jobsInProgress++;
         }
-        public void fireJob() { _jobsInProgress--; }
+        public void fireJob() 
+        {
+            WLog.record("Killing Job");
+            _jobsInProgress--;
+        }
         public void addFileProgress(int value)
         {
+            
             _progrssCount++;
         }
         public float getProgressPercent()

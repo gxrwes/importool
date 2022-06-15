@@ -26,6 +26,7 @@ namespace ImportTool
             logArray = new ArrayList();
             logArray.Add(logInitialized);
             logArray.Add("Jobname|" + jobname);
+            WLog.record("JOBNAME " + jobname);
 
         }
         public ImporterCopy(string jobname)
@@ -36,6 +37,7 @@ namespace ImportTool
             logArray = new ArrayList();
             logArray.Add(logInitialized);
             logArray.Add("Jobname|" + jobname);
+            WLog.record("Jobname|" + jobname);
 
         }
 
@@ -92,7 +94,6 @@ namespace ImportTool
         }
         private void ImportDirectory(string sourcePath, string targetPath)
         {
-            // Add Job to Jobwatcher
             ConfigHolderSingelton.Instance.addToJobWatcher();
 
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
@@ -107,6 +108,7 @@ namespace ImportTool
             // _ImportDirectory(source, target);
             WLog.record("\tCopyJob-Complete");
             // Job finished 
+            divCopyThread.Join();
             ConfigHolderSingelton.Instance.fireJob();
         }
         private void __ThreadImportDirectory()
@@ -119,11 +121,15 @@ namespace ImportTool
             _fileCopyIndexCounter++;
             g_Log = logArray;
 
+            // Add Job to Jobwatcher
+            ConfigHolderSingelton.Instance.addToJobWatcher();
+
             String timeStamp = Program.GetTimestamp(DateTime.Now);
             string filter = ConfigHolderSingelton.Instance.getExtensionFilter();
 
             if (source.FullName.ToLower() == target.FullName.ToLower())
             {
+                ConfigHolderSingelton.Instance.fireJob();
                 return;
             }
 
@@ -136,9 +142,9 @@ namespace ImportTool
             // Copy each file into it's new directory.
             foreach (FileInfo fi in source.GetFiles())
             {
-                WLog.record("Copying:"+ target.FullName+" --> " + fi.Name);
+                WLog.record("Copying:" + target.FullName + " --> " + fi.Name);
                 string name = prefixBuilder() + "" + fi.Name;
-                fi.CopyTo(Path.Combine(target.ToString(),name), true);
+                fi.CopyTo(Path.Combine(target.ToString(), name), true);
                 WLog.record("Copied And Renamed to " + name);
 
                 ConfigHolderSingelton.Instance.addFileProgress(1);
@@ -147,10 +153,17 @@ namespace ImportTool
             // Copy each subdirectory using recursion.
             foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
             {
-                DirectoryInfo nextTargetSubDir =
-                    target.CreateSubdirectory(diSourceSubDir.Name);
+                WLog.record("SubdirectoryCopy: "+diSourceSubDir.FullName);
+                // Do not create sub direcory
+                // Flatten folderstructure
+                // We want just the files
+                // DirectoryInfo nextTargetSubDir =  target.CreateSubdirectory(diSourceSubDir.Name);
+                DirectoryInfo nextTargetSubDir = target;
                 _ImportDirectory(diSourceSubDir, nextTargetSubDir);
             }
+            // Delete Job to Jobwatcher
+            ConfigHolderSingelton.Instance.fireJob();
+
         }
         public string prefixBuilder()
         {

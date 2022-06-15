@@ -16,6 +16,7 @@ namespace ImportTool
 
         public void Update()
         {
+            ConfigHolderSingelton.Instance.addToJobWatcher();
             float progress = 0;
             float step = ConfigHolderSingelton.Instance.getOnePercent();
             while (updating)
@@ -30,13 +31,15 @@ namespace ImportTool
                 progressBarCopy.Refresh();
                 progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
-                Thread.Sleep(100);
+                Thread.Sleep(200);
                 
-                if(!ConfigHolderSingelton.Instance.jobInProgress()) updating = false;
+                
+                if(!ConfigHolderSingelton.Instance.jobInProgress() && ConfigHolderSingelton.Instance.getProgressPercent() > 99) updating = false;
             }
             WLog.record("Closing Update");
             progressBarCopy.Value = progressBarCopy.Maximum;
             progressBarCopy.Refresh();
+            ConfigHolderSingelton.Instance.fireJob();
         }
         private void importPathButton(object sender, EventArgs e)
         {
@@ -112,11 +115,13 @@ namespace ImportTool
            
             // Start Import
             WLog.record("STARTING IMPORT");
+            ConfigHolderSingelton.Instance.addToJobWatcher();
             Thread copythread = new Thread(new ThreadStart( threadCopy ));
             copythread.Start();
             updating = true;
             Update();
             copythread.Join();
+            ConfigHolderSingelton.Instance.fireJob();
 
             // End messages
             WLog.record("IMPORT COMPLETE");
@@ -124,13 +129,15 @@ namespace ImportTool
             logTxtBox.Refresh(); 
             WLog.saveLog(ConfigHolderSingelton.Instance.getDestinationPath());
             DialogResult result2 = MessageBox.Show("Import Done, Click OK to close programm", "Alert!", MessageBoxButtons.OK);
+            logTxtBox.Refresh();
             if (result2 == DialogResult.OK)
             {
-                //this.Close();
+                WLog.record("Dialog OK, Goodbye");
+                this.Close();
             }
 
+            logTxtBox.Refresh();
 
-           
         }
         private void threadCopy()
         {
