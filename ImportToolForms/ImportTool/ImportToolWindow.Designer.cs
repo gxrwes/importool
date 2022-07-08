@@ -46,6 +46,8 @@
             this.configCheckboxCreateProject = new System.Windows.Forms.CheckBox();
             this.jobnameTextbox = new System.Windows.Forms.TextBox();
             this.jobnameLable = new System.Windows.Forms.Label();
+            this.camera = new System.Windows.Forms.TextBox();
+            this.lable2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -203,11 +205,29 @@
             this.jobnameLable.TabIndex = 16;
             this.jobnameLable.Text = "Jobname :";
             // 
+            // camera
+            // 
+            this.camera.Location = new System.Drawing.Point(315, 38);
+            this.camera.Name = "camera";
+            this.camera.Size = new System.Drawing.Size(100, 23);
+            this.camera.TabIndex = 17;
+            // 
+            // lable2
+            // 
+            this.lable2.AutoSize = true;
+            this.lable2.Location = new System.Drawing.Point(248, 46);
+            this.lable2.Name = "lable2";
+            this.lable2.Size = new System.Drawing.Size(51, 15);
+            this.lable2.TabIndex = 18;
+            this.lable2.Text = "Camera:";
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.lable2);
+            this.Controls.Add(this.camera);
             this.Controls.Add(this.jobnameLable);
             this.Controls.Add(this.jobnameTextbox);
             this.Controls.Add(this.configCheckboxCreateProject);
@@ -252,5 +272,7 @@
         private CheckBox configCheckboxCreateProject;
         private TextBox jobnameTextbox;
         private Label jobnameLable;
+        private TextBox camera;
+        private Label lable2;
     }
 }

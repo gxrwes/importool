@@ -72,6 +72,7 @@ namespace ImportTool
             ConfigHolderSingelton.Instance.setJobName(jobnameTextbox.Text.ToString());
 
             if (config.getJobName().Length < 1) WLog.record("No Jobname Selected");
+            if (camera.Text.Length > 0)ConfigHolderSingelton.Instance.setCamera(camera.Text);
             if(config.getImportPath() == "")
             {
                 string title = "Alert!";

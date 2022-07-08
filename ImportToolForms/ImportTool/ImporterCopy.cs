@@ -167,7 +167,8 @@ namespace ImportTool
         }
         public string prefixBuilder()
         {
-            return "[" + _fileCopyIndexCounter + "] " + ConfigHolderSingelton.Instance.getJobName() + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
+            int id = ConfigHolderSingelton.Instance.getFileID();
+            return "[" + id + "] " + ConfigHolderSingelton.Instance.getJobName() + "_" + Program.GetTimestamp(DateTime.Now) + "_OG#";
         }
         public static void testOrBuildDirectory(string path)
         {

@@ -37,6 +37,8 @@ namespace ImportTool
         // CopyJob Original File Hanlder
         private bool renameOriginalBool = false;
         private string renameOriginalCopyPrefix = "";
+        private int filecounter = 0;
+        private string cameraname = "Camera01";
 
 
         // Import Rename with tags
@@ -82,7 +84,11 @@ namespace ImportTool
 
         public string getCamera()
         {
-            return "Camera01";
+            return cameraname;
+        }
+        public void setCamera(string camera)
+        {
+            this.cameraname = camera;   
         }
         public bool jobInProgress()
         {
@@ -198,6 +204,12 @@ namespace ImportTool
         public float getOnePercent()
         {
             return ((float)_originalTargetCount / 100);
+        }
+
+        public int getFileID()
+        {
+            filecounter++;
+            return filecounter;
         }
     }
 }
