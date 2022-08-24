@@ -92,7 +92,7 @@ namespace ImportTool
         }
         public bool jobInProgress()
         {
-            WLog.record(": Jobs in progress : " + _jobsInProgress); 
+            //WLog.record(": Jobs in progress : " + _jobsInProgress); 
             if (_jobsInProgress > 0) return true;
             return false;
         }
@@ -130,6 +130,7 @@ namespace ImportTool
             isDefault = false;
             importPath = path; 
             _originalTargetCount = ImporterCopy.countFiles(path);
+
         }
         public void setDestPath(string path) 
         { 

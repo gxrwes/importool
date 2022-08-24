@@ -31,7 +31,7 @@ namespace ImportTool
                 progressBarCopy.Refresh();
                 progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
-                Thread.Sleep(200);
+                Thread.Sleep(500);
                 
                 
                 if(!ConfigHolderSingelton.Instance.jobInProgress() && ConfigHolderSingelton.Instance.getProgressPercent() > 99) updating = false;
@@ -49,6 +49,9 @@ namespace ImportTool
                 config.setImportPath(importPathDialog.SelectedPath);
                 importpathtxtbox.Text = config.getImportPath();
                 WLog.record("Import Path OK");
+                logTxtBox.AppendText(WLog.dumpLog());
+                logTxtBox.Update();
+
             }
 
         }
@@ -70,12 +73,12 @@ namespace ImportTool
         private void StartImport_Click(object sender, EventArgs e)
         {
             ConfigHolderSingelton.Instance.setJobName(jobnameTextbox.Text.ToString());
-
+            ConfigHolderSingelton.Instance.setCamera(camerabox.Text.ToString());
             if (config.getJobName().Length < 1) WLog.record("No Jobname Selected");
-            if (camera.Text.Length > 0)ConfigHolderSingelton.Instance.setCamera(camera.Text);
+            if (camerabox.Text.Length > 0)ConfigHolderSingelton.Instance.setCamera(camerabox.Text);
             if(config.getImportPath() == "")
             {
-                string title = "Alert!";
+                string title = "Alert! ";
                 string message = "Import Path cannot be empty";
                 WLog.record(title + message);
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
@@ -112,10 +115,16 @@ namespace ImportTool
             // Thread mainUpdate = new Thread(new ThreadStart(Update));
             StartImport.Enabled = false;
             jobnameTextbox.ReadOnly = true;
+            // Set new dest path with updated values
+            ConfigHolderSingelton.Instance.setDestPath( ConfigHolderSingelton.Instance.projectPathBuilder());
+            WLog.record("Setting DEST Path to\t" + ConfigHolderSingelton.Instance.getDestinationPath);
+            WLog.record("Setting CAMERA to\t\t" + ConfigHolderSingelton.Instance.getCamera);
             // count target
-           
+
             // Start Import
+            WLog.record("-------------------------------------------------");
             WLog.record("STARTING IMPORT");
+            WLog.record("-------------------------------------------------");
             ConfigHolderSingelton.Instance.addToJobWatcher();
             Thread copythread = new Thread(new ThreadStart( threadCopy ));
             copythread.Start();
@@ -125,8 +134,10 @@ namespace ImportTool
             ConfigHolderSingelton.Instance.fireJob();
 
             // End messages
+            WLog.record("-------------------------------------------------");
             WLog.record("IMPORT COMPLETE");
-            WLog.record("EOF");
+            WLog.record("-------------------------------------------------");
+            WLog.record("EOP");
             logTxtBox.Refresh(); 
             WLog.saveLog(ConfigHolderSingelton.Instance.getDestinationPath());
             DialogResult result2 = MessageBox.Show("Import Done, Click OK to close programm", "Alert!", MessageBoxButtons.OK);
@@ -142,6 +153,7 @@ namespace ImportTool
         }
         private void threadCopy()
         {
+            
             bool x = ic.StartCopy(config.getImportPath(),config.getDestinationPath());
         }
         private void _t_update()

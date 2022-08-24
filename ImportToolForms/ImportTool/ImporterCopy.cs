@@ -145,7 +145,7 @@ namespace ImportTool
                 WLog.record("Copying:" + target.FullName + " --> " + fi.Name);
                 string name = prefixBuilder() + "" + fi.Name;
                 fi.CopyTo(Path.Combine(target.ToString(), name), true);
-                WLog.record("Copied And Renamed to " + name);
+                WLog.record("Renamed to: " + name);
 
                 ConfigHolderSingelton.Instance.addFileProgress(1);
             }
