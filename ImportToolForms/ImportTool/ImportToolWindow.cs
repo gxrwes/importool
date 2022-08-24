@@ -46,8 +46,10 @@ namespace ImportTool
             FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select folder to import"};
             if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
-                config.setImportPath(importPathDialog.SelectedPath);
-                importpathtxtbox.Text = config.getImportPath();
+                ConfigHolderSingelton.Instance.setImportPath(importPathDialog.SelectedPath);
+                ConfigHolderSingelton.Instance.setImportPath(importPathDialog.SelectedPath);
+                importpathtxtbox.Text = ConfigHolderSingelton.Instance.getImportPath();
+                WLog.record("Import Path : "+ ConfigHolderSingelton.Instance.getImportPath());
                 WLog.record("Import Path OK");
                 logTxtBox.AppendText(WLog.dumpLog());
                 logTxtBox.Update();
@@ -61,8 +63,8 @@ namespace ImportTool
             FolderBrowserDialog destPathDialog = new FolderBrowserDialog() { Description = "Select folder to import" };
             if (destPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                config.setDestPath(destPathDialog.SelectedPath);
-                destpathtxtbox.Text = config.getImportPath();
+                ConfigHolderSingelton.Instance.setDestPath(destPathDialog.SelectedPath);
+                destpathtxtbox.Text = ConfigHolderSingelton.Instance.getImportPath();
                 WLog.record("SRC Path OK");
             }
         }
@@ -73,10 +75,11 @@ namespace ImportTool
         private void StartImport_Click(object sender, EventArgs e)
         {
             ConfigHolderSingelton.Instance.setJobName(jobnameTextbox.Text.ToString());
-            ConfigHolderSingelton.Instance.setCamera(camerabox.Text.ToString());
-            if (config.getJobName().Length < 1) WLog.record("No Jobname Selected");
+            //ConfigHolderSingelton.Instance.setCamera(camerabox.Text.ToString());
+            WLog.record("CAMERA DETECT " + ConfigHolderSingelton.Instance.getCamera() );
+            if (ConfigHolderSingelton.Instance.getJobName().Length < 1) WLog.record("No Jobname Selected");
             if (camerabox.Text.Length > 0)ConfigHolderSingelton.Instance.setCamera(camerabox.Text);
-            if(config.getImportPath() == "")
+            if(ConfigHolderSingelton.Instance.getImportPath() == "")
             {
                 string title = "Alert! ";
                 string message = "Import Path cannot be empty";
@@ -90,35 +93,37 @@ namespace ImportTool
             }
             if (configCheckboxDefault.Checked)
             {
-                config.setDefault();
-                config.setRenameImport(true);
-                config.setCreateProject(true);
+                ConfigHolderSingelton.Instance.setDefault();
+                ConfigHolderSingelton.Instance.setRenameImport(true);
+                ConfigHolderSingelton.Instance.setCreateProject(true);
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
                 configCheckboxAutoBackup.Enabled = false;
                 configCheckboxCreateProject.Enabled = false;
-                destpathtxtbox.Text = config.getDestinationPath();
+                destpathtxtbox.Text = ConfigHolderSingelton.Instance.getDestinationPath();
                 WLog.record("DEFAULT SET");
             }
             else
             {
-                if (configCheckboxRenameImport.Checked) config.setRenameImport(true);
-                else config.setRenameImport(false);
-                WLog.record("\trename import " + config.getRenameOriginalBool);
-                if (configCheckboxRenameOriginal.Checked) config.setRenamePrefix("_");
-                if (configCheckboxCreateProject.Checked) config.setCreateProject(true);
-                else config.setCreateProject(false);
-                WLog.record("\tcreate Project " + config.getCreateProject);
+                if (configCheckboxRenameImport.Checked) ConfigHolderSingelton.Instance.setRenameImport(true);
+                else ConfigHolderSingelton.Instance.setRenameImport(false);
+                WLog.record("\trename import " + ConfigHolderSingelton.Instance.getRenameOriginalBool);
+                if (configCheckboxRenameOriginal.Checked) ConfigHolderSingelton.Instance.setRenamePrefix("_");
+                if (configCheckboxCreateProject.Checked) ConfigHolderSingelton.Instance.setCreateProject(true);
+                else ConfigHolderSingelton.Instance.setCreateProject(false);
+                WLog.record("\tcreate Project " + ConfigHolderSingelton.Instance.getCreateProject);
             }
 
             // Thread mainUpdate = new Thread(new ThreadStart(Update));
             StartImport.Enabled = false;
             jobnameTextbox.ReadOnly = true;
             // Set new dest path with updated values
-            ConfigHolderSingelton.Instance.setDestPath( ConfigHolderSingelton.Instance.projectPathBuilder());
-            WLog.record("Setting DEST Path to\t" + ConfigHolderSingelton.Instance.getDestinationPath);
-            WLog.record("Setting CAMERA to\t\t" + ConfigHolderSingelton.Instance.getCamera);
+            //ConfigHolderSingelton.Instance.setDestPath( ConfigHolderSingelton.Instance.projectPathBuilder());
+            string temp01 =  ConfigHolderSingelton.Instance.projectPathBuilder();
+            WLog.record("Setting SRC Path to "+ ConfigHolderSingelton.Instance.getImportPath() );
+            WLog.record("Setting DEST Path to\t" + ConfigHolderSingelton.Instance.getDestinationPath());
+            WLog.record("Setting CAMERA to\t\t" + ConfigHolderSingelton.Instance.getCamera());
             // count target
 
             // Start Import
@@ -154,7 +159,7 @@ namespace ImportTool
         private void threadCopy()
         {
             
-            bool x = ic.StartCopy(config.getImportPath(),config.getDestinationPath());
+            bool x = ic.StartCopy(ConfigHolderSingelton.Instance.getImportPath(),ConfigHolderSingelton.Instance.getDestinationPath());
         }
         private void _t_update()
         {
