@@ -25,6 +25,7 @@ namespace ImportTool
 
         private static string importJobName = "";
         private string defaultPath = @"F:\MediaProjects\Videos\";
+        public string defaultPathFilename = @"import.cfg";
         private bool isDefault = false;
         private bool createProject = true;
 

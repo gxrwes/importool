@@ -13,6 +13,7 @@ namespace ImportTool
     public partial class configure_settings : Form
     {
         private string about_string;
+        private string configFilePath = "import.cfg";
         public configure_settings()
         {
             InitializeComponent();
@@ -49,11 +50,21 @@ namespace ImportTool
     
         private void backButton_click(object sender, EventArgs e)
         {
-            WLog.record("Closing");
+            WLog.record("Writing to file and Closing");
+
+            writeTofile();
             //defaultPath_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.Update();
             this.Close();
+
+        }
+
+        private static async Task writeTofile()
+        { 
+            string newDefaultFile = ConfigHolderSingelton.Instance.getDefaultpathString();
+            string cfg_filepath = ConfigHolderSingelton.Instance.defaultPathFilename;
+            await File.WriteAllTextAsync(ConfigHolderSingelton.Instance.defaultPathFilename, newDefaultFile) ;
 
         }
     }

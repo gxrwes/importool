@@ -16,6 +16,12 @@ namespace ImportTool
             ConfigHolderSingelton config = new ConfigHolderSingelton();
 
             ApplicationConfiguration.Initialize();
+
+            //Load Config
+            string text = System.IO.File.ReadAllText(ConfigHolderSingelton.Instance.defaultPathFilename);
+            WLog.record("LOADING DEFAULT PATH :: -" + text);
+            ConfigHolderSingelton.Instance.setNewDefaultpath(text);
+
             Application.Run(new ImportToolWindow());
         }
         public static String GetTimestamp(DateTime value)
