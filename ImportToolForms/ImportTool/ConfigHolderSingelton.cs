@@ -10,6 +10,8 @@ namespace ImportTool
 
     public sealed class  ConfigHolderSingelton
     {
+        private string version = "1.3";
+
         //SINGELTON
         private static ConfigHolderSingelton instance = null;
         private static readonly object padlock = new object();
@@ -63,6 +65,9 @@ namespace ImportTool
              
 
         // Getters
+        public string getVersion() { return version; }
+        public string getDefaultpathString() { return defaultPath; }
+        public void setNewDefaultpath(string newDefaultpath) { defaultPath = newDefaultpath; }  
         public bool IsDefault() { return isDefault; }
         public string getImportPath()
         {

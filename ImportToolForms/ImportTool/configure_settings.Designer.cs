@@ -31,6 +31,7 @@
             this.defaultPath_txtbox = new System.Windows.Forms.TextBox();
             this.chooseDefaultPath_button = new System.Windows.Forms.Button();
             this.about_txtbox = new System.Windows.Forms.RichTextBox();
+            this.back_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // defaultPath_txtbox
@@ -59,11 +60,22 @@
             this.about_txtbox.TabIndex = 4;
             this.about_txtbox.Text = "";
             // 
+            // back_button
+            // 
+            this.back_button.Location = new System.Drawing.Point(599, 74);
+            this.back_button.Name = "back_button";
+            this.back_button.Size = new System.Drawing.Size(129, 23);
+            this.back_button.TabIndex = 5;
+            this.back_button.Text = "Accept and Return";
+            this.back_button.UseVisualStyleBackColor = true;
+            this.back_button.Click += new System.EventHandler(this.backButton_click);
+            // 
             // configure_settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.back_button);
             this.Controls.Add(this.about_txtbox);
             this.Controls.Add(this.chooseDefaultPath_button);
             this.Controls.Add(this.defaultPath_txtbox);
@@ -79,5 +91,6 @@
         private TextBox defaultPath_txtbox;
         private Button chooseDefaultPath_button;
         private RichTextBox about_txtbox;
+        private Button back_button;
     }
 }
