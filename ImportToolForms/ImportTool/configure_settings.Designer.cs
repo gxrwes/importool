@@ -28,12 +28,56 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.defaultPath_txtbox = new System.Windows.Forms.TextBox();
+            this.chooseDefaultPath_button = new System.Windows.Forms.Button();
+            this.about_txtbox = new System.Windows.Forms.RichTextBox();
+            this.SuspendLayout();
+            // 
+            // defaultPath_txtbox
+            // 
+            this.defaultPath_txtbox.Location = new System.Drawing.Point(29, 45);
+            this.defaultPath_txtbox.Name = "defaultPath_txtbox";
+            this.defaultPath_txtbox.ReadOnly = true;
+            this.defaultPath_txtbox.Size = new System.Drawing.Size(539, 23);
+            this.defaultPath_txtbox.TabIndex = 2;
+            // 
+            // chooseDefaultPath_button
+            // 
+            this.chooseDefaultPath_button.Location = new System.Drawing.Point(599, 45);
+            this.chooseDefaultPath_button.Name = "chooseDefaultPath_button";
+            this.chooseDefaultPath_button.Size = new System.Drawing.Size(130, 23);
+            this.chooseDefaultPath_button.TabIndex = 3;
+            this.chooseDefaultPath_button.Text = "Choose Default Path";
+            this.chooseDefaultPath_button.UseVisualStyleBackColor = true;
+            this.chooseDefaultPath_button.Click += new System.EventHandler(this.chooseDefaultPath_Click);
+            // 
+            // about_txtbox
+            // 
+            this.about_txtbox.Location = new System.Drawing.Point(29, 103);
+            this.about_txtbox.Name = "about_txtbox";
+            this.about_txtbox.Size = new System.Drawing.Size(606, 276);
+            this.about_txtbox.TabIndex = 4;
+            this.about_txtbox.Text = "";
+            // 
+            // configure_settings
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.about_txtbox);
+            this.Controls.Add(this.chooseDefaultPath_button);
+            this.Controls.Add(this.defaultPath_txtbox);
+            this.Name = "configure_settings";
             this.Text = "configure_settings";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private TextBox defaultPath_txtbox;
+        private Button chooseDefaultPath_button;
+        private RichTextBox about_txtbox;
     }
 }

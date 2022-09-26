@@ -16,5 +16,8 @@ namespace ImportTool
         {
             InitializeComponent();
         }
+
+        private void chooseDefaultPath_Click(object sender, EventArgs e) 
+        { }
     }
 }
