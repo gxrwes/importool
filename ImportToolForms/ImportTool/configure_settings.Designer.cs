@@ -32,6 +32,7 @@
             this.chooseDefaultPath_button = new System.Windows.Forms.Button();
             this.about_txtbox = new System.Windows.Forms.RichTextBox();
             this.back_button = new System.Windows.Forms.Button();
+            this.Cancel_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // defaultPath_txtbox
@@ -56,13 +57,13 @@
             // 
             this.about_txtbox.Location = new System.Drawing.Point(29, 103);
             this.about_txtbox.Name = "about_txtbox";
-            this.about_txtbox.Size = new System.Drawing.Size(606, 276);
+            this.about_txtbox.Size = new System.Drawing.Size(539, 276);
             this.about_txtbox.TabIndex = 4;
             this.about_txtbox.Text = "";
             // 
             // back_button
             // 
-            this.back_button.Location = new System.Drawing.Point(599, 74);
+            this.back_button.Location = new System.Drawing.Point(600, 327);
             this.back_button.Name = "back_button";
             this.back_button.Size = new System.Drawing.Size(129, 23);
             this.back_button.TabIndex = 5;
@@ -70,11 +71,22 @@
             this.back_button.UseVisualStyleBackColor = true;
             this.back_button.Click += new System.EventHandler(this.backButton_click);
             // 
+            // Cancel_button
+            // 
+            this.Cancel_button.Location = new System.Drawing.Point(599, 356);
+            this.Cancel_button.Name = "Cancel_button";
+            this.Cancel_button.Size = new System.Drawing.Size(129, 23);
+            this.Cancel_button.TabIndex = 6;
+            this.Cancel_button.Text = "Cancel and Return";
+            this.Cancel_button.UseVisualStyleBackColor = true;
+            this.Cancel_button.Click += new System.EventHandler(this.cancel_click);
+            // 
             // configure_settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Cancel_button);
             this.Controls.Add(this.back_button);
             this.Controls.Add(this.about_txtbox);
             this.Controls.Add(this.chooseDefaultPath_button);
@@ -92,5 +104,6 @@
         private Button chooseDefaultPath_button;
         private RichTextBox about_txtbox;
         private Button back_button;
+        private Button Cancel_button;
     }
 }
