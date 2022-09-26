@@ -11,7 +11,11 @@ namespace ImportTool
         {
             InitializeComponent();
             ic = new ImporterCopy();
-           
+            WLog.record("LOADING:Main.Class.ImportToolWindow");
+            string temp = WLog.dumpLog();
+            logTxtBox.AppendText(temp);
+            logTxtBox.Update();
+
         }
 
         public void Update()
@@ -72,6 +76,9 @@ namespace ImportTool
         {
             configure_settings form = new configure_settings();
             form.Show();
+            string temp = WLog.dumpLog();
+            logTxtBox.AppendText(temp);
+            logTxtBox.Update();
         }
         private void initialConfigInput1_SelectedIndexChanged(object sender, EventArgs e)
         {

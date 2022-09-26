@@ -177,7 +177,7 @@
             this.logTxtBox.Name = "logTxtBox";
             this.logTxtBox.Size = new System.Drawing.Size(626, 218);
             this.logTxtBox.TabIndex = 13;
-            this.logTxtBox.Text = "test";
+            this.logTxtBox.Text = "";
             this.logTxtBox.TextChanged += new System.EventHandler(this.logTxtBox_TextChanged);
             // 
             // configCheckboxCreateProject

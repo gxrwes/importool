@@ -26,7 +26,8 @@ namespace ImportTool
             about_string = "\n=============ABOUT==============";
             about_string += "\n# IMPORTING MADE EASY";
             about_string += "\n# Importer V " + version + "    ";
-            about_string += "\n# A program by @Wes Stillwell  ";
+            about_string += "\n# A program by   ";
+            about_string += "\n# @Wes Stillwell, wesley.st96@yahoo.de  ";
             about_string += "\n# Let me know if ur enjoying it";
             about_string += "\n================================";
             about_string += "\n";
@@ -65,6 +66,7 @@ namespace ImportTool
             //defaultPath_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.Update();
+            WLog.record("Closing Configure Window Mode: Apply Settings");
             this.Close();
 
         }
@@ -74,6 +76,7 @@ namespace ImportTool
             WLog.record("Cancelling and Closing");
             about_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.Update();
+            WLog.record("Closing Configure Window Mode: Cancel");
             this.Close();
         }
         private static async Task writeTofile()
