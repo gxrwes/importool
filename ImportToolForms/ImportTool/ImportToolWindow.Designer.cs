@@ -48,6 +48,7 @@
             this.jobnameLable = new System.Windows.Forms.Label();
             this.camerabox = new System.Windows.Forms.TextBox();
             this.lable2 = new System.Windows.Forms.Label();
+            this.configSettingsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -221,11 +222,22 @@
             this.lable2.TabIndex = 18;
             this.lable2.Text = "Camera:";
             // 
+            // configSettingsButton
+            // 
+            this.configSettingsButton.Location = new System.Drawing.Point(612, 128);
+            this.configSettingsButton.Name = "configSettingsButton";
+            this.configSettingsButton.Size = new System.Drawing.Size(130, 23);
+            this.configSettingsButton.TabIndex = 19;
+            this.configSettingsButton.Text = "Configure Setings";
+            this.configSettingsButton.UseVisualStyleBackColor = true;
+            this.configSettingsButton.Click += new System.EventHandler(this.configSettingsButton_Click);
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(789, 556);
+            this.Controls.Add(this.configSettingsButton);
             this.Controls.Add(this.lable2);
             this.Controls.Add(this.camerabox);
             this.Controls.Add(this.jobnameLable);
@@ -274,5 +286,6 @@
         private Label jobnameLable;
         private TextBox camerabox;
         private Label lable2;
+        private Button configSettingsButton;
     }
 }

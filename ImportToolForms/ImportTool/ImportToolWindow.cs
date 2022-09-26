@@ -68,6 +68,11 @@ namespace ImportTool
                 WLog.record("SRC Path OK");
             }
         }
+        private void configSettingsButton_Click(object sender, EventArgs e)
+        {
+            configure_settings form = new configure_settings();
+            form.Show();
+        }
         private void initialConfigInput1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
