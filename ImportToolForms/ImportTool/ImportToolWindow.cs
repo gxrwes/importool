@@ -25,17 +25,17 @@ namespace ImportTool
             float step = ConfigHolderSingelton.Instance.getOnePercent();
             while (updating)
             {
+                // Show Log in Log Box
                 string temp =  WLog.dumpLog();
                 logTxtBox.AppendText( temp ) ;
                 logTxtBox.Update();
-                //logTxtBox.Refresh();
                
                 if(ConfigHolderSingelton.Instance.getProgressPercent() < progressBarCopy.Maximum)
                     progressBarCopy.Value =(int) ConfigHolderSingelton.Instance.getProgressPercent();
                 progressBarCopy.Refresh();
                 progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
                 
                 
                 if(!ConfigHolderSingelton.Instance.jobInProgress() && ConfigHolderSingelton.Instance.getProgressPercent() > 99) updating = false;
@@ -157,11 +157,12 @@ namespace ImportTool
             WLog.record("EOP");
             logTxtBox.Refresh(); 
             WLog.saveLog(ConfigHolderSingelton.Instance.getDestinationPath());
-            DialogResult result2 = MessageBox.Show("Import Done, Click OK to close programm", "Alert!", MessageBoxButtons.OK);
+            DialogResult result2 = MessageBox.Show("Import Done, Click OK to close ", "Alert!", MessageBoxButtons.OK);
             logTxtBox.Refresh();
             if (result2 == DialogResult.OK)
             {
                 WLog.record("Dialog OK, Goodbye");
+                
                 this.Close();
             }
 
