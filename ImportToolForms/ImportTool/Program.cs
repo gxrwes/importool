@@ -12,8 +12,10 @@ namespace ImportTool
         
         static void Main()
         {
-            // TODO create config
+            // TODO create config and then load
             ConfigHolderSingelton config = new ConfigHolderSingelton();
+            Config cf = new Config();
+            cf.Read();
 
             ApplicationConfiguration.Initialize();
 

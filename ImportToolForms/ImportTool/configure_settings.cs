@@ -15,13 +15,15 @@ namespace ImportTool
         private string about_string;
         private string configFilePath = "import.cfg";
 
+        private Config cf = new Config();
 
         //Temp variables
         string newPath;
+        string newPMPath;
         public configure_settings()
         {
             InitializeComponent();
-            this.defaultPath_txtbox.Text = ConfigHolderSingelton.Instance.getDefaultpathString();
+            
             string version = ConfigHolderSingelton.Instance.getVersion();
             about_string = "\n=============ABOUT==============";
             about_string += "\n# IMPORTING MADE EASY";
@@ -35,6 +37,9 @@ namespace ImportTool
             about_txtbox.Update();
 
             newPath = ConfigHolderSingelton.Instance.getDefaultpathString();
+            this.defaultPath_txtbox.Text = ConfigHolderSingelton.Instance.getDefaultpathString();
+            newPMPath = ConfigHolderSingelton.Instance.getPMTemplatePath();
+            this.defaultPMFile_textbox.Text = newPMPath;
 
         }
 
@@ -62,7 +67,11 @@ namespace ImportTool
 
             // Accept changes, Update, then leave
             ConfigHolderSingelton.Instance.setNewDefaultpath(newPath);
-            writeTofile();
+            ConfigHolderSingelton.Instance.setPMTemplatePath(newPMPath);
+
+            // Write the settings to the config
+            cf.saveConfig();    
+
             //defaultPath_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.AppendText(WLog.dumpLog());
             about_txtbox.Update();
@@ -79,12 +88,30 @@ namespace ImportTool
             WLog.record("Closing Configure Window Mode: Cancel");
             this.Close();
         }
-        private static async Task writeTofile()
-        { 
-            string newDefaultFile = ConfigHolderSingelton.Instance.getDefaultpathString();
-            string cfg_filepath = ConfigHolderSingelton.Instance.defaultPathFilename;
-            await File.WriteAllTextAsync(ConfigHolderSingelton.Instance.defaultPathFilename, newDefaultFile) ;
+       
+        private void label1_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void chooseDefPMTemplate_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Premiere Pro Project|*.prproj";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                newPMPath = openFileDialog.FileName;
+
+                defaultPMFile_textbox.Text = newPMPath;
+                WLog.record("DEFAULT Path : " + newPMPath);
+                WLog.record("DEFAULT Path OK");
+                //defaultPath_txtbox.AppendText(WLog.dumpLog());
+                defaultPMFile_textbox.Update();
+                about_txtbox.AppendText(WLog.dumpLog());
+                about_txtbox.Update();
+            }
+           
         }
     }
 }

@@ -25,6 +25,7 @@ namespace ImportTool
 
         private static string importJobName = "";
         private string defaultPath = @"F:\MediaProjects\Videos\";
+        private string defaultPMTemplatePath = @"";
         public string defaultPathFilename = @"import.cfg";
         private bool isDefault = false;
         private bool createProject = true;
@@ -66,6 +67,7 @@ namespace ImportTool
              
 
         // Getters
+        public string getPMTemplatePath() { return defaultPMTemplatePath; }
         public string getVersion() { return version; }
         public string getDefaultpathString() { return defaultPath; }
         public void setNewDefaultpath(string newDefaultpath) { defaultPath = newDefaultpath; }  
@@ -105,6 +107,7 @@ namespace ImportTool
 
 
         // Setters
+        public void setPMTemplatePath(string path) { defaultPMTemplatePath = path;  }
         public void setExtenstionFilter(string ext)
         {
             if (ext.Length > 0)
