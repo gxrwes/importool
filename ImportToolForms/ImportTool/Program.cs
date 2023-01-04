@@ -12,17 +12,11 @@ namespace ImportTool
         
         static void Main()
         {
-            // TODO create config and then load
             ConfigHolderSingelton config = new ConfigHolderSingelton();
             Config cf = new Config();
             cf.Read();
 
             ApplicationConfiguration.Initialize();
-
-            //Load Config
-            string text = System.IO.File.ReadAllText(ConfigHolderSingelton.Instance.defaultPathFilename);
-            WLog.record("LOADING DEFAULT PATH :: -" + text);
-            ConfigHolderSingelton.Instance.setNewDefaultpath(text);
 
             Application.Run(new ImportToolWindow());
         }

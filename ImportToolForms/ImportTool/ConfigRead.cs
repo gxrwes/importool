@@ -25,6 +25,7 @@ namespace ImportTool
             Regex defaultVideo = new Regex(@"DefaultPath=(.*);");
             Regex defaultRename = new Regex(@"DefaultRename=(.*);");
             Regex defaultPM= new Regex(@"DefaultPMTemplate=(.*);");
+            // TODO create failure for when file not found
             string[] lines = System.IO.File.ReadAllLines(configPath);
             foreach (string line in lines)
             {
@@ -38,6 +39,7 @@ namespace ImportTool
                     if (def_videoPath.Length > 1)
                     {
                         ConfigHolderSingelton.Instance.setDestPath(def_videoPath);
+                        ConfigHolderSingelton.Instance.setNewDefaultpath(def_videoPath);
                     }
                 }
                 

@@ -75,6 +75,7 @@ namespace ImportTool
         private void configSettingsButton_Click(object sender, EventArgs e)
         {
             configure_settings form = new configure_settings();
+
             form.Show();
             string temp = WLog.dumpLog();
             logTxtBox.AppendText(temp);

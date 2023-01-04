@@ -24,7 +24,8 @@ namespace ImportTool
         //---------------
 
         private static string importJobName = "";
-        private string defaultPath = @"F:\MediaProjects\Videos\";
+        // the default path to where items get copied to
+        private string defaultPath;
         private string defaultPMTemplatePath = @"";
         public string defaultPathFilename = @"import.cfg";
         private bool isDefault = false;
