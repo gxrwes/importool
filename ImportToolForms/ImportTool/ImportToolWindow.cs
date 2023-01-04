@@ -153,7 +153,7 @@ namespace ImportTool
             copythread.Join();
             ConfigHolderSingelton.Instance.fireJob();
 
-
+            // Copy a Premiere Project from the template
             if (configCheckboxCreateProject.Enabled == true)
             {
                 WLog.record("Creating Premiere Project");
@@ -161,7 +161,7 @@ namespace ImportTool
                 try
                 {
                     string src = ConfigHolderSingelton.Instance.getPMTemplatePath();
-                    string dest = ConfigHolderSingelton.Instance.tempPMtargetPath + "_.prproj.";
+                    string dest = ConfigHolderSingelton.Instance.projectFolderPath + ConfigHolderSingelton.Instance.getJobName +"_.prproj.";
                     File.Copy(src,dest, false);
                 }
                 catch (IOException iox)

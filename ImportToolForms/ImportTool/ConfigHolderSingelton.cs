@@ -49,7 +49,7 @@ namespace ImportTool
         // Import Rename with tags
         private bool renameImport = false;
 
-        public string tempPMtargetPath;
+        public string projectFolderPath = "";
 
 
         // Constructors
@@ -189,8 +189,12 @@ namespace ImportTool
             tempPath += "["+ dayFormat + "]_" + getJobName() + "\\";
             //tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
-            tempPMtargetPath = "";
-            tempPMtargetPath = destPath + tempPath;
+            if(projectFolderPath.Length < 1)
+            {
+                projectFolderPath = destPath + tempPath;
+            }
+            
+            
             tempPath += "Footage\\" + this.getCamera() + "\\";
             WLog.record("Building Path : " + tempPath);
             return tempPath;
