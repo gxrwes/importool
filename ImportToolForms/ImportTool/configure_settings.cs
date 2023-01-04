@@ -48,9 +48,9 @@ namespace ImportTool
             FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select DEFAULT Folder" };
             if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                newPath = importPathDialog.SelectedPath;
+                newPath = importPathDialog.SelectedPath+ "\\";
 
-                defaultPath_txtbox.Text = newPath + "\\";
+                defaultPath_txtbox.Text = newPath;
                 WLog.record("DEFAULT Path : " + newPath);
                 WLog.record("DEFAULT Path OK");
                 //defaultPath_txtbox.AppendText(WLog.dumpLog());

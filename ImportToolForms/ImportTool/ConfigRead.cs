@@ -25,7 +25,15 @@ namespace ImportTool
             Regex defaultVideo = new Regex(@"DefaultPath=(.*);");
             Regex defaultRename = new Regex(@"DefaultRename=(.*);");
             Regex defaultPM= new Regex(@"DefaultPMTemplate=(.*);");
-            // TODO create failure for when file not found
+            if (!System.IO.File.Exists(configPath))
+            {
+                using (FileStream fs = File.Create(configPath))
+                {
+                    // Add some text to file    
+                    Byte[] title = new UTF8Encoding(true).GetBytes("DefaultPath=;\nDefaultPMTemplate=;");
+                    fs.Write(title, 0, title.Length);
+                }
+            }
             string[] lines = System.IO.File.ReadAllLines(configPath);
             foreach (string line in lines)
             {

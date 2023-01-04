@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace ImportTool
 {
     public partial class ImportToolWindow : Form
@@ -63,7 +65,6 @@ namespace ImportTool
         }
         private void chooseDestPathButton(object sender, EventArgs e)
         {
-
             FolderBrowserDialog destPathDialog = new FolderBrowserDialog() { Description = "Select folder to import" };
             if (destPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -113,7 +114,7 @@ namespace ImportTool
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
                 configCheckboxAutoBackup.Enabled = false;
-                configCheckboxCreateProject.Enabled = false;
+                configCheckboxCreateProject.Enabled = true;
                 destpathtxtbox.Text = ConfigHolderSingelton.Instance.getDestinationPath();
                 WLog.record("DEFAULT SET");
             }
@@ -127,6 +128,7 @@ namespace ImportTool
                 else ConfigHolderSingelton.Instance.setCreateProject(false);
                 WLog.record("\tcreate Project " + ConfigHolderSingelton.Instance.getCreateProject);
             }
+
 
             // Thread mainUpdate = new Thread(new ThreadStart(Update));
             StartImport.Enabled = false;
@@ -150,6 +152,23 @@ namespace ImportTool
             Update();
             copythread.Join();
             ConfigHolderSingelton.Instance.fireJob();
+
+
+            if (configCheckboxCreateProject.Enabled == true)
+            {
+                WLog.record("Creating Premiere Project");
+                ConfigHolderSingelton.Instance.setCreateProject(true);
+                try
+                {
+                    string src = ConfigHolderSingelton.Instance.getPMTemplatePath();
+                    string dest = ConfigHolderSingelton.Instance.tempPMtargetPath + "_.prproj.";
+                    File.Copy(src,dest, false);
+                }
+                catch (IOException iox)
+                {
+                    WLog.record("ERROR:0x101 - could not create project" + iox.Message);
+                }
+            }
 
             // End messages
             WLog.record("-------------------------------------------------");

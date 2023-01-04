@@ -49,6 +49,8 @@ namespace ImportTool
         // Import Rename with tags
         private bool renameImport = false;
 
+        public string tempPMtargetPath;
+
 
         // Constructors
         public static ConfigHolderSingelton Instance
@@ -187,6 +189,8 @@ namespace ImportTool
             tempPath += "["+ dayFormat + "]_" + getJobName() + "\\";
             //tempPath += "[" + dayFormat + "]_" +  "\\";
             // add directory Footage
+            tempPMtargetPath = "";
+            tempPMtargetPath = destPath + tempPath;
             tempPath += "Footage\\" + this.getCamera() + "\\";
             WLog.record("Building Path : " + tempPath);
             return tempPath;
