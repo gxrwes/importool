@@ -12,7 +12,12 @@ To use the import tool you can either Clone the Repository, if you wish to build
    - *3.1* . Click Configure Settings ![Click Configure](readme_images/readme01.PNG "config1")
    - *3.2* Click Choose default Path ![Set Default path](readme_images/readme02.PNG "config1")
    - *3.3* Click Accept and Return to apply setting
-3. The Program has been set up
+4. Configure Premier Project
+   - *4.1* Click Configure Settings again
+   - *4.2* Next to *Default Premier Template*  click the Choose Default Path button
+   - *4.3* Navigate to your Default Premeiere Projet you with to also copy 
+   - *4.4* Click Accept and Return to apply setting
+5. The Program has been set up
 ## Usage
 
 Set your  `Jobname` to the name of the import job, this will be the name of the top-level folder. Set `Camera` to what Camera you are importing, eg: GOPRO, or Filmcamera1
@@ -27,6 +32,7 @@ Set your  `Jobname` to the name of the import job, this will be the name of the 
 1. For a custom FImport make sure `use default settings` is unchecked.
 2. Press `Choose Import Path` to the selected Location you want to import
 3. Press `Choos Destination` to select where your files need to go
+4. Tick `create Project` to copy the selected Premier file for workflow
 4. Press `Start Import` button and it will copy files to the selected directory
 
 ## Notes
