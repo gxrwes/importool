@@ -10,7 +10,7 @@ namespace ImportTool
 
     public sealed class  ConfigHolderSingelton
     {
-        private string version = "1.3";
+        private string version = "1.4";
 
         //SINGELTON
         private static ConfigHolderSingelton instance = null;

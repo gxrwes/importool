@@ -114,7 +114,6 @@ namespace ImportTool
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
                 configCheckboxAutoBackup.Enabled = false;
-                configCheckboxCreateProject.Enabled = true;
                 destpathtxtbox.Text = ConfigHolderSingelton.Instance.getDestinationPath();
                 WLog.record("DEFAULT SET");
             }
@@ -166,7 +165,7 @@ namespace ImportTool
                 }
                 catch (IOException iox)
                 {
-                    WLog.record("ERROR:0x101 - could not create project" + iox.Message);
+                    WLog.record( "ERROR - could not create project. " + iox.Message);
                 }
             }
 
@@ -183,7 +182,6 @@ namespace ImportTool
             {
                 WLog.record("Dialog OK, Goodbye");
                 
-                this.Close();
             }
 
             logTxtBox.Refresh();
