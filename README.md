@@ -40,6 +40,13 @@ Set your  `Jobname` to the name of the import job, this will be the name of the 
 - Program needs to be restarted for fresh import (it will close after acceping complete import message anyway)
 - To add a 2nd camera to the Import-Job just relaunch the Programm and enter the same Jobname
 
+## Changes
+### 1.3
+   Introducing the main Program with basic functionality
+### 1.4
+   Improved Configure
+   - Added ability to copy from Premiere Project
+
 ## About
 IMPORTING MADE EASY
 
