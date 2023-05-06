@@ -8,7 +8,7 @@ namespace ImportTool
         private ImporterCopy ic;
         public static bool updating = true;
         private int originalCoutn = 0;
-        
+
         public ImportToolWindow()
         {
             InitializeComponent();
@@ -28,19 +28,19 @@ namespace ImportTool
             while (updating)
             {
                 // Show Log in Log Box
-                string temp =  WLog.dumpLog();
-                logTxtBox.AppendText( temp ) ;
+                string temp = WLog.dumpLog();
+                logTxtBox.AppendText(temp);
                 logTxtBox.Update();
-               
-                if(ConfigHolderSingelton.Instance.getProgressPercent() < progressBarCopy.Maximum)
-                    progressBarCopy.Value =(int) ConfigHolderSingelton.Instance.getProgressPercent();
+
+                if (ConfigHolderSingelton.Instance.getProgressPercent() < progressBarCopy.Maximum)
+                    progressBarCopy.Value = (int)ConfigHolderSingelton.Instance.getProgressPercent();
                 progressBarCopy.Refresh();
                 progressLable1.Text = progress.ToString();
                 progressLable1.Refresh();
                 //Thread.Sleep(500);
-                
-                
-                if(!ConfigHolderSingelton.Instance.jobInProgress() && ConfigHolderSingelton.Instance.getProgressPercent() > 99) updating = false;
+
+
+                if (!ConfigHolderSingelton.Instance.jobInProgress() && ConfigHolderSingelton.Instance.getProgressPercent() > 99) updating = false;
             }
             WLog.record("Closing Update");
             progressBarCopy.Value = progressBarCopy.Maximum;
@@ -49,13 +49,13 @@ namespace ImportTool
         }
         private void importPathButton(object sender, EventArgs e)
         {
-            FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select folder to import"};
-            if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            FolderBrowserDialog importPathDialog = new FolderBrowserDialog() { Description = "Select folder to import" };
+            if (importPathDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ConfigHolderSingelton.Instance.setImportPath(importPathDialog.SelectedPath);
                 ConfigHolderSingelton.Instance.setImportPath(importPathDialog.SelectedPath);
                 importpathtxtbox.Text = ConfigHolderSingelton.Instance.getImportPath();
-                WLog.record("Import Path : "+ ConfigHolderSingelton.Instance.getImportPath());
+                WLog.record("Import Path : " + ConfigHolderSingelton.Instance.getImportPath());
                 WLog.record("Import Path OK");
                 logTxtBox.AppendText(WLog.dumpLog());
                 logTxtBox.Update();
@@ -70,7 +70,16 @@ namespace ImportTool
             {
                 ConfigHolderSingelton.Instance.setDestPath(destPathDialog.SelectedPath);
                 destpathtxtbox.Text = ConfigHolderSingelton.Instance.getImportPath();
-                WLog.record("SRC Path OK");
+                WLog.record("DST Path OK");
+            }
+            // Manage SRC and DST Path before Processing
+            // this should probably move elsewhere
+            {
+                string dst = ConfigHolderSingelton.Instance.getDestinationPath();
+                char last = dst[dst.Length - 1];
+
+                if (last != '/' || last != '\\') { dst += "\\"; }
+                ConfigHolderSingelton.Instance.setDestPath(dst);
             }
         }
         private void configSettingsButton_Click(object sender, EventArgs e)
@@ -90,10 +99,10 @@ namespace ImportTool
         {
             ConfigHolderSingelton.Instance.setJobName(jobnameTextbox.Text.ToString());
             //ConfigHolderSingelton.Instance.setCamera(camerabox.Text.ToString());
-            WLog.record("CAMERA DETECT " + ConfigHolderSingelton.Instance.getCamera() );
+            WLog.record("CAMERA DETECT " + ConfigHolderSingelton.Instance.getCamera());
             if (ConfigHolderSingelton.Instance.getJobName().Length < 1) WLog.record("No Jobname Selected");
-            if (camerabox.Text.Length > 0)ConfigHolderSingelton.Instance.setCamera(camerabox.Text);
-            if(ConfigHolderSingelton.Instance.getImportPath() == "")
+            if (camerabox.Text.Length > 0) ConfigHolderSingelton.Instance.setCamera(camerabox.Text);
+            if (ConfigHolderSingelton.Instance.getImportPath() == "")
             {
                 string title = "Alert! ";
                 string message = "Import Path cannot be empty";
@@ -105,6 +114,7 @@ namespace ImportTool
                     this.Close();
                 }
             }
+            // Start with default settings
             if (configCheckboxDefault.Checked)
             {
                 ConfigHolderSingelton.Instance.setDefault();
@@ -113,7 +123,6 @@ namespace ImportTool
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
-                configCheckboxAutoBackup.Enabled = false;
                 destpathtxtbox.Text = ConfigHolderSingelton.Instance.getDestinationPath();
                 WLog.record("DEFAULT SET");
             }
@@ -121,6 +130,7 @@ namespace ImportTool
             {
                 if (configCheckboxRenameImport.Checked) ConfigHolderSingelton.Instance.setRenameImport(true);
                 else ConfigHolderSingelton.Instance.setRenameImport(false);
+
                 WLog.record("\trename import " + ConfigHolderSingelton.Instance.getRenameOriginalBool);
                 if (configCheckboxRenameOriginal.Checked) ConfigHolderSingelton.Instance.setRenamePrefix("_");
                 if (configCheckboxCreateProject.Checked) ConfigHolderSingelton.Instance.setCreateProject(true);
@@ -128,16 +138,22 @@ namespace ImportTool
                 WLog.record("\tcreate Project " + ConfigHolderSingelton.Instance.getCreateProject);
             }
 
+            // Start the run
+            copyRun();
 
-            // Thread mainUpdate = new Thread(new ThreadStart(Update));
+        }
+        private void copyRun()
+        {
+
             StartImport.Enabled = false;
             jobnameTextbox.ReadOnly = true;
             // Set new dest path with updated values
             //ConfigHolderSingelton.Instance.setDestPath( ConfigHolderSingelton.Instance.projectPathBuilder());
-            string temp01 =  ConfigHolderSingelton.Instance.projectPathBuilder();
-            WLog.record("Setting SRC Path to "+ ConfigHolderSingelton.Instance.getImportPath() );
+            string temp01 = ConfigHolderSingelton.Instance.projectPathBuilder();
+            WLog.record("Setting SRC Path to " + ConfigHolderSingelton.Instance.getImportPath());
             WLog.record("Setting DEST Path to\t" + ConfigHolderSingelton.Instance.getDestinationPath());
             WLog.record("Setting CAMERA to\t\t" + ConfigHolderSingelton.Instance.getCamera());
+            logTxtBox.Refresh();
             // count target
 
             // Start Import
@@ -145,7 +161,10 @@ namespace ImportTool
             WLog.record("STARTING IMPORT");
             WLog.record("-------------------------------------------------");
             ConfigHolderSingelton.Instance.addToJobWatcher();
-            Thread copythread = new Thread(new ThreadStart( threadCopy ));
+            
+
+
+            Thread copythread = new Thread(new ThreadStart(threadCopy));
             copythread.Start();
             updating = true;
             Update();
@@ -160,12 +179,15 @@ namespace ImportTool
                 try
                 {
                     string src = ConfigHolderSingelton.Instance.getPMTemplatePath();
-                    string dest = ConfigHolderSingelton.Instance.projectFolderPath + ConfigHolderSingelton.Instance.getJobName +"_.prproj.";
-                    File.Copy(src,dest, false);
+                    string dest = ConfigHolderSingelton.Instance.projectFolderPath + ConfigHolderSingelton.Instance.getJobName + "_.prproj.";
+                    if(src.Length > 1) File.Copy(src, dest, false);
+                    else { 
+                        WLog.record("No default Premiere Project found"); 
+                    }
                 }
                 catch (IOException iox)
                 {
-                    WLog.record( "ERROR - could not create project. " + iox.Message);
+                    WLog.record("ERROR - could not create project. " + iox.Message);
                 }
             }
 
@@ -173,19 +195,32 @@ namespace ImportTool
             WLog.record("-------------------------------------------------");
             WLog.record("IMPORT COMPLETE");
             WLog.record("-------------------------------------------------");
-            WLog.record("EOP");
-            logTxtBox.Refresh(); 
+            logTxtBox.Refresh();
             WLog.saveLog(ConfigHolderSingelton.Instance.getDestinationPath());
             DialogResult result2 = MessageBox.Show("Import Done, Click OK to close ", "Alert!", MessageBoxButtons.OK);
             logTxtBox.Refresh();
             if (result2 == DialogResult.OK)
             {
-                WLog.record("Dialog OK, Goodbye");
-                
+               resetWindow();
+
             }
 
             logTxtBox.Refresh();
 
+        }
+        private void resetWindow()
+        {
+            WLog.record("Resetting Program..");
+
+            // reset checkboxes
+            configCheckboxCreateProject.Enabled = true;
+            configCheckboxRenameImport.Enabled = true;
+            configCheckboxRenameOriginal.Enabled = true;    
+            configCheckboxDefault.Enabled = true;
+            StartImport.Enabled = true;
+            jobnameTextbox.ReadOnly = false;
+
+            logTxtBox.Refresh();
         }
         private void threadCopy()
         {
