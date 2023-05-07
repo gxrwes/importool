@@ -105,16 +105,13 @@ namespace ImportTool
             }
             Thread divCopyThread = new Thread(new ThreadStart( () => _ImportDirectory(source, target) ));
             divCopyThread.Start();
-            // _ImportDirectory(source, target);
+            
             WLog.record("\tCopyJob-Complete");
             // Job finished 
             divCopyThread.Join();
             ConfigHolderSingelton.Instance.fireJob();
         }
-        private void __ThreadImportDirectory()
-        {
-
-        }
+       
         private void _ImportDirectory(DirectoryInfo source, DirectoryInfo target)
         {
             //sync counter
@@ -148,6 +145,13 @@ namespace ImportTool
                 WLog.record("Renamed to: " + name);
 
                 ConfigHolderSingelton.Instance.addFileProgress(1);
+
+                // Rename logic
+                if (ConfigHolderSingelton.Instance.getRenameOriginalBool())
+                {
+                    string prefix = ConfigHolderSingelton.Instance.getRenamePrefix();
+                    System.IO.File.Move(fi.FullName, fi.DirectoryName+ "\\" + prefix + fi.Name);
+                }
             }
 
             // Copy each subdirectory using recursion.

@@ -124,6 +124,8 @@ namespace ImportTool
                 configCheckboxRenameImport.Enabled = false;
                 configCheckboxRenameOriginal.Enabled = false;
                 destpathtxtbox.Text = ConfigHolderSingelton.Instance.getDestinationPath();
+                prefixBox.Text = ConfigHolderSingelton.Instance.getRenamePrefix();
+                prefixBox.Enabled = false;
                 WLog.record("DEFAULT SET");
             }
             else
@@ -132,10 +134,11 @@ namespace ImportTool
                 else ConfigHolderSingelton.Instance.setRenameImport(false);
 
                 WLog.record("\trename import " + ConfigHolderSingelton.Instance.getRenameOriginalBool);
-                if (configCheckboxRenameOriginal.Checked) ConfigHolderSingelton.Instance.setRenamePrefix("_");
+                if (configCheckboxRenameOriginal.Checked) ConfigHolderSingelton.Instance.setRenamePrefix(prefixBox.Text);
                 if (configCheckboxCreateProject.Checked) ConfigHolderSingelton.Instance.setCreateProject(true);
                 else ConfigHolderSingelton.Instance.setCreateProject(false);
                 WLog.record("\tcreate Project " + ConfigHolderSingelton.Instance.getCreateProject);
+                
             }
 
             // Start the run
@@ -219,6 +222,7 @@ namespace ImportTool
             configCheckboxDefault.Enabled = true;
             StartImport.Enabled = true;
             jobnameTextbox.ReadOnly = false;
+            prefixBox.Enabled = true;
 
             logTxtBox.Refresh();
         }

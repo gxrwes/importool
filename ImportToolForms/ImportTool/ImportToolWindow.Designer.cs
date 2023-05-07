@@ -48,6 +48,7 @@
             this.camerabox = new System.Windows.Forms.TextBox();
             this.lable2 = new System.Windows.Forms.Label();
             this.configSettingsButton = new System.Windows.Forms.Button();
+            this.prefixBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // chooseImportPath
@@ -240,11 +241,21 @@
             this.configSettingsButton.UseVisualStyleBackColor = true;
             this.configSettingsButton.Click += new System.EventHandler(this.configSettingsButton_Click);
             // 
+            // prefixBox
+            // 
+            this.prefixBox.Location = new System.Drawing.Point(354, 302);
+            this.prefixBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.prefixBox.MaxLength = 5;
+            this.prefixBox.Name = "prefixBox";
+            this.prefixBox.Size = new System.Drawing.Size(59, 31);
+            this.prefixBox.TabIndex = 20;
+            // 
             // ImportToolWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1127, 927);
+            this.Controls.Add(this.prefixBox);
             this.Controls.Add(this.configSettingsButton);
             this.Controls.Add(this.lable2);
             this.Controls.Add(this.camerabox);
@@ -294,5 +305,6 @@
         private TextBox camerabox;
         private Label lable2;
         private Button configSettingsButton;
+        private TextBox prefixBox;
     }
 }
